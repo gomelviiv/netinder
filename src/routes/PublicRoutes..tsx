@@ -11,7 +11,6 @@ interface Props {
 
 const PublicRoute: React.FC<Props> = ({ children }) => {
   const user = { isAuthenticated: true };
-  console.log(user);
   return !user?.isAuthenticated ? <Navigate to={INITIAL_ROUTE} /> : children;
 };
 

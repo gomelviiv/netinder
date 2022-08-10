@@ -1,15 +1,15 @@
 import React, { ReactNode } from 'react';
 import { Route, Routes } from 'react-router-dom';
 
+import PrivateRoute from '@routes/PrivateRoutes';
 import PublicRoute from '@routes/PublicRoutes.';
 
-import { PRIVATE_ROUTES } from './configs/routes.config';
+import { PRIVATE_ROUTES, PUBLIC_ROUTES } from './configs/routes.config';
 
 const AppRouter: React.FC = () => {
-  console.log(PRIVATE_ROUTES);
   return (
     <Routes>
-      {/* {!!PUBLIC_ROUTES &&
+      {!!PUBLIC_ROUTES &&
         PUBLIC_ROUTES.length &&
         PUBLIC_ROUTES.map(
           (routeProps): ReactNode => (
@@ -19,7 +19,7 @@ const AppRouter: React.FC = () => {
               element={<PublicRoute>{<routeProps.component />}</PublicRoute>}
             />
           ),
-        )} */}
+        )}
 
       {!!PRIVATE_ROUTES &&
         PRIVATE_ROUTES.length &&
@@ -28,7 +28,7 @@ const AppRouter: React.FC = () => {
             <Route
               key={routeProps.path}
               path={routeProps.path}
-              element={<PublicRoute>{<routeProps.component />}</PublicRoute>}
+              element={<PrivateRoute>{<routeProps.component />}</PrivateRoute>}
             />
           ),
         )}

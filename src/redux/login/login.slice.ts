@@ -1,29 +1,26 @@
-// import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-// const LS_FAV_KEY = 'rfk';
+import { initialState } from './__constants__';
+import { TinderProfile } from './__types__';
 
-// interface GithubState {
-//   favorites: string[];
-// }
+export const tinderProfileSlice = createSlice({
+  name: 'tinderProfile',
+  initialState,
+  reducers: {
+    savePhone(state: TinderProfile, action: PayloadAction<string>) {
+      state.phoneNumber = action.payload;
+    },
+    savePhoneCode(state: TinderProfile, action: PayloadAction<string>) {
+      state.phoneCode = action.payload;
+    },
+    saveEmailCode(state: TinderProfile, action: PayloadAction<string>) {
+      state.emailCode = action.payload;
+    },
+    saveToken(state: TinderProfile, action: PayloadAction<string>) {
+      state.token = action.payload;
+    },
+  },
+});
 
-// const initialState: GithubState = {
-//   favorites: JSON.parse(localStorage.getItem(LS_FAV_KEY) ?? '[]'),
-// };
-
-// export const githubSlice = createSlice({
-//   name: 'github',
-//   initialState,
-//   reducers: {
-//     addFavorite(state: GithubState, action: PayloadAction<string>) {
-//       state.favorites.push(action.payload);
-//       localStorage.setItem(LS_FAV_KEY, JSON.stringify(state.favorites));
-//     },
-//     removeFavorite(state: GithubState, action: PayloadAction<string>) {
-//       state.favorites = state.favorites.filter((favorite) => favorite !== action.payload);
-//       localStorage.setItem(LS_FAV_KEY, JSON.stringify(state.favorites));
-//     },
-//   },
-// });
-
-// export const githubActions = githubSlice.actions;
-// export const githubReducer = githubSlice.reducer;
+export const { savePhone } = tinderProfileSlice.actions;
+export const tinderProfileReducer = tinderProfileSlice.reducer;

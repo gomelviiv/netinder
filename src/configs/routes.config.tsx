@@ -36,7 +36,7 @@ export const PRIVATE_ROUTES: IRouteComponent[] = [
     path: ROUTES.HOME,
     component: () => <RouteElement name="Home" />,
     exact: true,
-    name: 'mainPage',
-    appTitle: 'Главная страница',
+    name: 'home',
+    appTitle: 'Home',
   },
 ];

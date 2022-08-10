@@ -1,1 +1,1 @@
-export { default } from './CaptchaContainer';
+export { default } from './Captcha';

@@ -1,7 +1,12 @@
 import React, { FC } from 'react';
 
 const Home: FC = () => {
-  return <div className="font-bold">Home</div>;
+  return (
+    <section>
+      <article></article>
+      <article>phono</article>
+    </section>
+  );
 };
 
 export default Home;

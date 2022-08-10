@@ -13,5 +13,9 @@ export interface ILoginRequestData {
 }
 
 export interface ILoginResponseData {
-  phone: number;
+  phone: string;
+}
+
+export interface IPhoneCode {
+  codePhone: string;
 }
