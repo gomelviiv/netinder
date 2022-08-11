@@ -1,8 +1,9 @@
 import React, { FC } from 'react';
 
+import { ILoginResponseEmailCode, ILoginResponseSmsCode } from '@redux/login/__types__';
 import { useLazyLoginCodeEmailQuery, useLazyLoginSmsCodeQuery } from '@redux/login/login.api';
-import Captcha from '@shared/components/Captcha';
-import { ILoginResponseEmailCode, ILoginResponseSmsCode } from '@shared/interface/api/login';
+import Confirmation from '@shared/components/modals/Confirmation';
+import { ConfirmationCode } from '@shared/enum/confirmationCode.enum';
 
 import PhoneForm from './PhoneForm';
 import Stepper, { Step } from './Stepper';
@@ -19,11 +20,19 @@ const Login: FC = () => {
         </Step>
 
         <Step step={1}>
-          <Captcha<ILoginResponseSmsCode> title="смс" name="smsCode" queryFunction={sendSmsCode} />
+          <Confirmation<ILoginResponseSmsCode>
+            title="смс"
+            name={ConfirmationCode.SMS_CODE}
+            queryFunction={sendSmsCode}
+          />
         </Step>
 
         <Step step={2}>
-          <Captcha<ILoginResponseEmailCode> title="емаил код" name="emailCode" queryFunction={sendEmailCode} />
+          <Confirmation<ILoginResponseEmailCode>
+            title="емаил код"
+            name={ConfirmationCode.EMAIL_CODE}
+            queryFunction={sendEmailCode}
+          />
         </Step>
       </Stepper>
     </div>

@@ -7,7 +7,6 @@ import { IRouteComponent } from '@shared/interface/routes';
 const RouteElement = ({ name }) => {
   const Element = lazy(() => import(`@pages/${name}`));
 
-  //TODO: add spinner
   return (
     <Suspense fallback={<CircularProgress />}>
       <Element />
@@ -15,10 +14,10 @@ const RouteElement = ({ name }) => {
   );
 };
 
-export const ROUTES = {
-  LOGIN: '/',
-  HOME: '/home',
-};
+export const enum ROUTES {
+  LOGIN = '/',
+  HOME = '/home',
+}
 
 export const INITIAL_ROUTE = ROUTES.LOGIN;
 
@@ -27,7 +26,6 @@ export const PUBLIC_ROUTES: IRouteComponent[] = [
     path: ROUTES.LOGIN,
     component: () => <RouteElement name="Login" />,
     exact: true,
-    name: 'login',
     appTitle: 'Login',
   },
 ];
@@ -37,7 +35,6 @@ export const PRIVATE_ROUTES: IRouteComponent[] = [
     path: ROUTES.HOME,
     component: () => <RouteElement name="Home" />,
     exact: true,
-    name: 'home',
     appTitle: 'Home',
   },
 ];

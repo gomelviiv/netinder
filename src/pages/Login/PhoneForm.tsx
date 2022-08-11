@@ -3,7 +3,7 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 
 import { Button, TextField } from '@mui/material';
 import { useAppDispatch } from '@redux/hooks';
-import { ITinderProfile } from '@redux/login/__types__';
+import { ILoginResponsePhone } from '@redux/login/__types__';
 import { useLazyLoginPhoneNumberQuery } from '@redux/login/login.api';
 import { savePhone } from '@redux/login/login.slice';
 
@@ -12,11 +12,11 @@ import { StepperContext } from './Stepper';
 const PhoneForm: FC = () => {
   const { goToNextStep } = useContext(StepperContext);
   const [sendPhoneNumber] = useLazyLoginPhoneNumberQuery();
-  const { register, handleSubmit, getValues } = useForm<ITinderProfile>();
+  const { register, handleSubmit, getValues } = useForm<ILoginResponsePhone>();
 
   const dispatch = useAppDispatch();
 
-  const onSubmit: SubmitHandler<ITinderProfile> = (data) => {
+  const onSubmit: SubmitHandler<ILoginResponsePhone> = (data) => {
     handleSubmitPhone(getValues('phoneNumber'));
     sendPhoneNumber(data);
     goToNextStep();

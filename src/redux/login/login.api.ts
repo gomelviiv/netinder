@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/dist/query/react';
 
-import { ITinderProfile } from './__types__';
+import { ILoginResponseEmailCode, ILoginResponsePhone, ILoginResponseSmsCode } from './__types__';
 
 export const tinderApi = createApi({
   reducerPath: 'tinder/api',
@@ -9,18 +9,18 @@ export const tinderApi = createApi({
   }),
   refetchOnFocus: false,
   endpoints: (build) => ({
-    loginPhoneNumber: build.query<string, ITinderProfile>({
-      query: (data: ITinderProfile) => ({
+    loginPhoneNumber: build.query<string, ILoginResponsePhone>({
+      query: (data: ILoginResponsePhone) => ({
         url: `/authByPhone`,
         method: 'GET',
         headers: {
           PhoneNumber: `${data.phoneNumber}`,
         },
       }),
-      // transformResponse: (response: ILoginRequestData) => response,
+      // transformResponse: (response: ILoginRequestData) => response.token,
     }),
-    loginSmsCode: build.query<string, ITinderProfile>({
-      query: (data: ITinderProfile) => ({
+    loginSmsCode: build.query<string, ILoginResponseSmsCode>({
+      query: (data: ILoginResponseSmsCode) => ({
         url: `/smsConfirmationByPhone`,
         method: 'PATCH',
         headers: {
@@ -29,8 +29,8 @@ export const tinderApi = createApi({
         },
       }),
     }),
-    loginCodeEmail: build.query<string, ITinderProfile>({
-      query: (data: ITinderProfile) => ({
+    loginCodeEmail: build.query<string, ILoginResponseEmailCode>({
+      query: (data: ILoginResponseEmailCode) => ({
         url: `/emailConfirmationByPhone`,
         method: 'PATCH',
         headers: {

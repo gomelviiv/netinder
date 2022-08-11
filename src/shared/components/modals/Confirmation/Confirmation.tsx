@@ -5,16 +5,15 @@ import Modal from 'react-modal';
 import { Button, TextField } from '@mui/material';
 import { StepperContext } from '@pages/Login/Stepper';
 import { useAppSelector } from '@redux/hooks';
-
-import { LoginName } from './__types__';
+import { ConfirmationCode } from '@shared/enum/confirmationCode.enum';
 
 interface Props<T> {
   title: string;
-  queryFunction: (profile: T) => void;
-  name: LoginName;
+  queryFunction: (data: T) => void;
+  name: ConfirmationCode;
 }
 
-const Captcha = <T extends { phoneNumber: string }>({ title, name, queryFunction }: Props<T>) => {
+const Confirmation = <T extends { phoneNumber: string }>({ title, name, queryFunction }: Props<T>) => {
   const [isOpen, setIsOpen] = useState(true);
   const { register, handleSubmit } = useForm();
   const { resetSteps, goToNextStep } = useContext(StepperContext);
@@ -43,4 +42,4 @@ const Captcha = <T extends { phoneNumber: string }>({ title, name, queryFunction
   );
 };
 
-export default Captcha;
+export default Confirmation;

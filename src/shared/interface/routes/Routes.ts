@@ -4,7 +4,6 @@ interface IRouteComponent {
   appTitle?: string;
   path: string;
   exact?: boolean;
-  name: string;
   component: React.FC;
 }
 
