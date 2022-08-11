@@ -1,32 +1,31 @@
-import React, { FC, useContext, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import Modal from 'react-modal';
 
 import { Button, TextField } from '@mui/material';
 import { StepperContext } from '@pages/Login/Stepper';
 import { useAppSelector } from '@redux/hooks';
-import { ITinderProfile } from '@redux/login/__types__';
 
 import { LoginName } from './__types__';
 
-interface Props {
+interface Props<T> {
   title: string;
-  queryFunction: (profile: ITinderProfile) => void;
+  queryFunction: (profile: T) => void;
   name: LoginName;
 }
 
-const Captcha: FC<Props> = ({ title, name, queryFunction }) => {
+const Captcha = <T extends { phoneNumber: string }>({ title, name, queryFunction }: Props<T>) => {
   const [isOpen, setIsOpen] = useState(true);
-  const { register, handleSubmit } = useForm<ITinderProfile>();
-  const tinderProfile = useAppSelector((state) => state.tinderProfile);
+  const { register, handleSubmit } = useForm();
   const { resetSteps, goToNextStep } = useContext(StepperContext);
+  const tinderProfile = useAppSelector((state) => state.tinderProfile);
 
   const closeModal = () => {
     resetSteps();
   };
 
-  const onSubmit: SubmitHandler<ITinderProfile> = (data) => {
-    queryFunction({ [name]: data[name], phoneNumber: tinderProfile.phoneNumber });
+  const onSubmit: SubmitHandler<T> = (data) => {
+    queryFunction({ [name]: data[name], phoneNumber: tinderProfile.phoneNumber } as T);
     setIsOpen(false);
     goToNextStep();
   };

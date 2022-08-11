@@ -13,15 +13,15 @@ export interface ILoginRequestData {
 }
 
 export interface ILoginResponsePhone {
-  phone: string;
+  phoneNumber: string;
 }
 
 export interface ILoginResponseSmsCode {
   smsCode: string;
-  phone: string;
+  phoneNumber: string;
 }
 
 export interface ILoginResponseEmailCode {
   email: string;
-  phone: string;
+  phoneNumber: string;
 }

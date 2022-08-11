@@ -2,6 +2,7 @@ import React, { FC } from 'react';
 
 import { useLazyLoginCodeEmailQuery, useLazyLoginSmsCodeQuery } from '@redux/login/login.api';
 import Captcha from '@shared/components/Captcha';
+import { ILoginResponseEmailCode, ILoginResponseSmsCode } from '@shared/interface/api/login';
 
 import PhoneForm from './PhoneForm';
 import Stepper, { Step } from './Stepper';
@@ -18,11 +19,11 @@ const Login: FC = () => {
         </Step>
 
         <Step step={1}>
-          <Captcha title="смс" name="smsCode" queryFunction={sendSmsCode} />
+          <Captcha<ILoginResponseSmsCode> title="смс" name="smsCode" queryFunction={sendSmsCode} />
         </Step>
 
         <Step step={2}>
-          <Captcha title="емаил код" name="emailCode" queryFunction={sendEmailCode} />
+          <Captcha<ILoginResponseEmailCode> title="емаил код" name="emailCode" queryFunction={sendEmailCode} />
         </Step>
       </Stepper>
     </div>
