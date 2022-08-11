@@ -1,5 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/dist/query/react';
-import { ILoginRequestData, ILoginResponseData, IPhoneCode } from '@shared/interface/api/login';
+
+import { ITinderProfile } from './__types__';
 
 export const tinderApi = createApi({
   reducerPath: 'tinder/api',
@@ -8,23 +9,33 @@ export const tinderApi = createApi({
   }),
   refetchOnFocus: false,
   endpoints: (build) => ({
-    loginUser: build.query<ILoginRequestData, ILoginResponseData>({
-      query: (user: ILoginResponseData) => ({
+    loginPhoneNumber: build.query<string, ITinderProfile>({
+      query: (data: ITinderProfile) => ({
         url: `/authByPhone`,
         method: 'GET',
         headers: {
-          PhoneNumber: `${user.phone}`,
+          PhoneNumber: `${data.phoneNumber}`,
         },
       }),
-      transformResponse: (response: ILoginRequestData) => response,
+      // transformResponse: (response: ILoginRequestData) => response,
     }),
-    loginCodePhone: build.query<IPhoneCode, string>({
-      query: (phoneCode: string) => ({
+    loginSmsCode: build.query<string, ITinderProfile>({
+      query: (data: ITinderProfile) => ({
         url: `/smsConfirmationByPhone`,
         method: 'PATCH',
         headers: {
-          PhoneNumber: `338763343`,
-          smsConfirmationCode: `${phoneCode}`,
+          PhoneNumber: `${data.phoneNumber}`,
+          smsConfirmationCode: `${data.smsCode}`,
+        },
+      }),
+    }),
+    loginCodeEmail: build.query<string, ITinderProfile>({
+      query: (data: ITinderProfile) => ({
+        url: `/emailConfirmationByPhone`,
+        method: 'PATCH',
+        headers: {
+          PhoneNumber: `${data.phoneNumber}`,
+          emailConfirmationCode: `${data.emailCode}`,
         },
       }),
     }),
@@ -41,4 +52,4 @@ export const tinderApi = createApi({
   }),
 });
 
-export const { useLazyLoginUserQuery, useLazyLoginCodePhoneQuery } = tinderApi;
+export const { useLazyLoginPhoneNumberQuery, useLazyLoginSmsCodeQuery, useLazyLoginCodeEmailQuery } = tinderApi;

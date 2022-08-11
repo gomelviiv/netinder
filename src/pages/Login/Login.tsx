@@ -1,37 +1,32 @@
-import React, { FC, memo, useCallback, useState } from 'react';
-import { SubmitHandler, useForm } from 'react-hook-form';
+import React, { FC } from 'react';
 
-import { useAppDispatch } from '@redux/hooks';
-import { useLazyLoginUserQuery } from '@redux/login/login.api';
-import { savePhone } from '@redux/login/login.slice';
+import { useLazyLoginCodeEmailQuery, useLazyLoginSmsCodeQuery } from '@redux/login/login.api';
 import Captcha from '@shared/components/Captcha';
-import { ILoginResponseData } from '@shared/interface/api/login';
+
+import PhoneForm from './PhoneForm';
+import Stepper, { Step } from './Stepper';
 
 const Login: FC = () => {
-  const [captcha, setCaptcha] = useState(false);
-  const { register, handleSubmit, getValues } = useForm<ILoginResponseData>();
-  const [loginUser] = useLazyLoginUserQuery();
-  const dispatch = useAppDispatch();
-
-  const handleSubmitPhone = useCallback((phone: string) => dispatch(savePhone(phone)), [dispatch]);
-
-  const onSubmit: SubmitHandler<ILoginResponseData> = (data) => loginUser(data);
-
-  const handleSubmitForm = () => {
-    setCaptcha((v) => !v);
-    handleSubmitPhone(getValues('phone'));
-  };
+  const [sendSmsCode] = useLazyLoginSmsCodeQuery();
+  const [sendEmailCode] = useLazyLoginCodeEmailQuery();
 
   return (
     <div>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <h2 className="p-2">Форма входа</h2>
-        <input {...register('phone')} />
-        <button onClick={handleSubmitForm}>отправить</button>
-      </form>
-      {captcha && <Captcha captcha={captcha} setCaptcha={setCaptcha} />}
+      <Stepper>
+        <Step step={0}>
+          <PhoneForm />
+        </Step>
+
+        <Step step={1}>
+          <Captcha title="смс" name="smsCode" queryFunction={sendSmsCode} />
+        </Step>
+
+        <Step step={2}>
+          <Captcha title="емаил код" name="emailCode" queryFunction={sendEmailCode} />
+        </Step>
+      </Stepper>
     </div>
   );
 };
 
-export default memo(Login);
+export default Login;

@@ -1,10 +1,11 @@
 import React, { FC } from 'react';
 
+import Profile from './Profile';
+
 const Home: FC = () => {
   return (
     <section>
-      <article></article>
-      <article>phono</article>
+      <Profile />
     </section>
   );
 };

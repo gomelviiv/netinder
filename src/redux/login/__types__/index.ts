@@ -1,6 +1,6 @@
-export interface TinderProfile {
-  phoneNumber: string;
-  phoneCode: string;
-  emailCode: string;
-  token: string;
+export interface ITinderProfile {
+  phoneNumber?: string;
+  smsCode?: string;
+  emailCode?: string;
+  token?: string;
 }

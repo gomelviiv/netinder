@@ -1,26 +1,26 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import { initialState } from './__constants__';
-import { TinderProfile } from './__types__';
+import { ITinderProfile } from './__types__';
 
 export const tinderProfileSlice = createSlice({
   name: 'tinderProfile',
   initialState,
   reducers: {
-    savePhone(state: TinderProfile, action: PayloadAction<string>) {
+    savePhone(state: ITinderProfile, action: PayloadAction<string>) {
       state.phoneNumber = action.payload;
     },
-    savePhoneCode(state: TinderProfile, action: PayloadAction<string>) {
-      state.phoneCode = action.payload;
+    saveSmsCode(state: ITinderProfile, action: PayloadAction<string>) {
+      state.smsCode = action.payload;
     },
-    saveEmailCode(state: TinderProfile, action: PayloadAction<string>) {
+    saveEmailCode(state: ITinderProfile, action: PayloadAction<string>) {
       state.emailCode = action.payload;
     },
-    saveToken(state: TinderProfile, action: PayloadAction<string>) {
+    saveToken(state: ITinderProfile, action: PayloadAction<string>) {
       state.token = action.payload;
     },
   },
 });
 
-export const { savePhone } = tinderProfileSlice.actions;
+export const { savePhone, saveSmsCode, saveEmailCode } = tinderProfileSlice.actions;
 export const tinderProfileReducer = tinderProfileSlice.reducer;

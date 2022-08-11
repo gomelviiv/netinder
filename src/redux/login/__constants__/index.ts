@@ -1,8 +1,8 @@
-import { TinderProfile } from '../__types__';
+import { ITinderProfile } from '../__types__';
 
-const initialState: TinderProfile = {
+const initialState: ITinderProfile = {
   phoneNumber: null,
-  phoneCode: null,
+  smsCode: null,
   emailCode: null,
   token: null,
 };

@@ -12,10 +12,16 @@ export interface ILoginRequestData {
   data: IData;
 }
 
-export interface ILoginResponseData {
+export interface ILoginResponsePhone {
   phone: string;
 }
 
-export interface IPhoneCode {
-  codePhone: string;
+export interface ILoginResponseSmsCode {
+  smsCode: string;
+  phone: string;
+}
+
+export interface ILoginResponseEmailCode {
+  email: string;
+  phone: string;
 }

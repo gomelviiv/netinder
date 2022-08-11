@@ -1,6 +1,7 @@
 import React from 'react';
 import { lazy, Suspense } from 'react';
 
+import { CircularProgress } from '@mui/material';
 import { IRouteComponent } from '@shared/interface/routes';
 
 const RouteElement = ({ name }) => {
@@ -8,7 +9,7 @@ const RouteElement = ({ name }) => {
 
   //TODO: add spinner
   return (
-    <Suspense>
+    <Suspense fallback={<CircularProgress />}>
       <Element />
     </Suspense>
   );
