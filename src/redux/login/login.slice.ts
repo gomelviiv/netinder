@@ -3,7 +3,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { initialState } from './__constants__';
 import { ITinderProfile } from './__types__';
 
-export const tinderProfileSlice = createSlice({
+export const loginSlice = createSlice({
   name: 'tinderProfile',
   initialState,
   reducers: {
@@ -22,5 +22,5 @@ export const tinderProfileSlice = createSlice({
   },
 });
 
-export const { savePhone, saveSmsCode, saveEmailCode } = tinderProfileSlice.actions;
-export const tinderProfileReducer = tinderProfileSlice.reducer;
+export const { savePhone, saveSmsCode, saveEmailCode, saveToken } = loginSlice.actions;
+export const loginReducer = loginSlice.reducer;

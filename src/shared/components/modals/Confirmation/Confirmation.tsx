@@ -17,14 +17,14 @@ const Confirmation = <T extends { phoneNumber: string }>({ title, name, queryFun
   const [isOpen, setIsOpen] = useState(true);
   const { register, handleSubmit } = useForm();
   const { resetSteps, goToNextStep } = useContext(StepperContext);
-  const tinderProfile = useAppSelector((state) => state.tinderProfile);
+  const loginState = useAppSelector((state) => state.login);
 
   const closeModal = () => {
     resetSteps();
   };
 
   const onSubmit: SubmitHandler<T> = (data) => {
-    queryFunction({ [name]: data[name], phoneNumber: tinderProfile.phoneNumber } as T);
+    queryFunction({ [name]: data[name], phoneNumber: loginState.phoneNumber } as T);
     setIsOpen(false);
     goToNextStep();
   };

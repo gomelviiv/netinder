@@ -1,15 +1,17 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/dist/query/react';
 
 import { ILoginResponseEmailCode, ILoginResponsePhone, ILoginResponseSmsCode } from './__types__';
+import { saveToken } from './login.slice';
 
-export const tinderApi = createApi({
-  reducerPath: 'tinder/api',
+export const loginApi = createApi({
+  reducerPath: 'login/api',
   baseQuery: fetchBaseQuery({
     baseUrl: 'http://172.17.110.23:8080',
   }),
+  tagTypes: ['Login'],
   refetchOnFocus: false,
   endpoints: (build) => ({
-    loginPhoneNumber: build.query<string, ILoginResponsePhone>({
+    loginPhoneNumber: build.query<{ tinderWebToken: string }, ILoginResponsePhone>({
       query: (data: ILoginResponsePhone) => ({
         url: `/authByPhone`,
         method: 'GET',
@@ -17,7 +19,17 @@ export const tinderApi = createApi({
           PhoneNumber: `${data.phoneNumber}`,
         },
       }),
-      // transformResponse: (response: ILoginRequestData) => response.token,
+      providesTags: ['Login'],
+      async onQueryStarted(loginData, { dispatch, queryFulfilled }) {
+        console.log('Fetching post...');
+        try {
+          const { data } = await queryFulfilled;
+          console.log(data);
+          dispatch(saveToken(data.tinderWebToken));
+        } catch (err) {
+          console.log('Error fetching post!');
+        }
+      },
     }),
     loginSmsCode: build.query<string, ILoginResponseSmsCode>({
       query: (data: ILoginResponseSmsCode) => ({
@@ -39,17 +51,7 @@ export const tinderApi = createApi({
         },
       }),
     }),
-    // getMatches: build.query<any, any>({
-    //   query: (userToken: any) => ({
-    //     url: `smsConfirmationByPhone`,
-    //     method: 'GET',
-    //     params: {
-    //       token: `${userToken}`,
-    //     },
-    //   }),
-    //   transformResponse: (response: ILoginRequestData) => response,
-    // }),
   }),
 });
 
-export const { useLazyLoginPhoneNumberQuery, useLazyLoginSmsCodeQuery, useLazyLoginCodeEmailQuery } = tinderApi;
+export const { useLazyLoginPhoneNumberQuery, useLazyLoginSmsCodeQuery, useLazyLoginCodeEmailQuery } = loginApi;

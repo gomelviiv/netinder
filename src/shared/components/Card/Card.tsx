@@ -1,15 +1,32 @@
-import React from 'react';
+import React, { FC } from 'react';
+import { Link } from 'react-router-dom';
 
-import { CardMedia } from '@mui/material';
-import Card from '@mui/material/Card';
+import { CardContent } from '@mui/material';
+import { IMatch } from '@redux/matches/__types__/matches';
 
-import './style.scss';
+import { CardActions, CardButton, CardContainer, CardDescription, CardImg, CardName, CardYears } from './styles';
 
-const CardComponent = () => {
+interface Props {
+  match: IMatch;
+}
+
+const CardComponent: FC<Props> = ({ match }) => {
   return (
-    <Card sx={{ maxWidth: 345, maxHeight: 400 }}>
-      <CardMedia component="img" className="q1" alt="Paella dish" />
-    </Card>
+    <CardContainer>
+      <Link to={`/${match.tinderId}`}>
+        <CardContent>
+          <CardImg component="img" src={`${match.photo}`} alt="Paella dish" />
+          <CardDescription>
+            <CardName>{match.name}</CardName>
+            <CardYears>{match.age}</CardYears>
+          </CardDescription>
+        </CardContent>
+      </Link>
+      <CardActions>
+        <CardButton bg="red"> DELETE </CardButton>
+        <CardButton> MATCHES </CardButton>
+      </CardActions>
+    </CardContainer>
   );
 };
 

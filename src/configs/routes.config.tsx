@@ -17,6 +17,7 @@ const RouteElement = ({ name }) => {
 export const enum ROUTES {
   LOGIN = '/',
   HOME = '/home',
+  PROFILE = ':id',
 }
 
 export const INITIAL_ROUTE = ROUTES.LOGIN;
@@ -36,5 +37,11 @@ export const PRIVATE_ROUTES: IRouteComponent[] = [
     component: () => <RouteElement name="Home" />,
     exact: true,
     appTitle: 'Home',
+  },
+  {
+    path: ROUTES.PROFILE,
+    component: () => <RouteElement name="Profile" />,
+    exact: true,
+    appTitle: 'Profile',
   },
 ];

@@ -12,13 +12,14 @@ import { StepperContext } from './Stepper';
 const PhoneForm: FC = () => {
   const { goToNextStep } = useContext(StepperContext);
   const [sendPhoneNumber] = useLazyLoginPhoneNumberQuery();
+
   const { register, handleSubmit, getValues } = useForm<ILoginResponsePhone>();
 
   const dispatch = useAppDispatch();
-
   const onSubmit: SubmitHandler<ILoginResponsePhone> = (data) => {
     handleSubmitPhone(getValues('phoneNumber'));
     sendPhoneNumber(data);
+
     goToNextStep();
   };
 

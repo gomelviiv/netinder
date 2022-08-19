@@ -1,12 +1,18 @@
-import { tinderApi } from '@redux/login/login.api';
-import { tinderProfileReducer } from '@redux/login/login.slice';
+import { loginApi } from '@redux/login/login.api';
+import { loginReducer } from '@redux/login/login.slice';
+import { matchesApi } from '@redux/matches/matches.api';
+import { userApi } from '@redux/user/user.api';
 import { configureStore } from '@reduxjs/toolkit';
 
 const store = configureStore({
   reducer: {
-    [tinderApi.reducerPath]: tinderApi.reducer,
-    tinderProfile: tinderProfileReducer,
+    [loginApi.reducerPath]: loginApi.reducer,
+    [matchesApi.reducerPath]: matchesApi.reducer,
+    [userApi.reducerPath]: userApi.reducer,
+    login: loginReducer,
   },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().concat(loginApi.middleware).concat(matchesApi.middleware).concat(userApi.middleware),
 });
 
 export default store;
