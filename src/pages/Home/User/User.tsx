@@ -1,8 +1,8 @@
 import React, { FC } from 'react';
 
 import { Typography } from '@mui/material';
-import { IMatch } from '@redux/matches/__types__/matches';
-import { IUser } from '@redux/user/__types__/user';
+import { IMatch } from '@redux/components/matches/__types__/matches';
+import { IUser } from '@redux/components/user/__types__/user';
 import Card from '@shared/components/Card';
 
 import { BaseInformation, CardsContainer, UserArticle, UserImg, UserInformation, UserTextField } from './styles';
@@ -28,7 +28,7 @@ const User: FC<Props> = ({ dataMatches, isLoadingMatches, dataUser }) => {
         {isLoadingMatches ? (
           <Typography>Loading...</Typography>
         ) : (
-          dataMatches?.map((match) => <Card key={match.id} match={match} />)
+          dataMatches?.map((match) => <Card key={match.tinderId} match={match} />)
         )}
       </CardsContainer>
     </UserArticle>

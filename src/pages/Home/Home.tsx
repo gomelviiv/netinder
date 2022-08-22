@@ -1,14 +1,15 @@
 import React, { FC } from 'react';
 
+import { useGetAllMatchesQuery } from '@redux/components/matches/matches.api';
+import { useGetUserInformationQuery } from '@redux/components/user/user.api';
 import { useAppSelector } from '@redux/hooks';
-import { useGetAllMatchesQuery } from '@redux/matches/matches.api';
-import { useGetUserInformationQuery } from '@redux/user/user.api';
 
 import { ContainerHome } from './styles';
 import User from './User';
 
 const Home: FC = () => {
   const loginState = useAppSelector((state) => state.login);
+  console.log(loginState);
   const { isLoading: isLoadingUser, data: dataUser } = useGetUserInformationQuery(loginState.token);
   const {
     isError: isErrorMatches,
@@ -16,6 +17,8 @@ const Home: FC = () => {
     data: dataMatches,
   } = useGetAllMatchesQuery({ phoneNumber: loginState.phoneNumber, token: loginState.token });
 
+  console.log('dataMatches', dataMatches);
+  console.log('dataUser', dataUser);
   return (
     <ContainerHome>
       {isLoadingUser ? (

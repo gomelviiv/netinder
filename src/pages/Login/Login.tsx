@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 
-import { ILoginResponseEmailCode, ILoginResponseSmsCode } from '@redux/login/__types__';
-import { useLazyLoginCodeEmailQuery, useLazyLoginSmsCodeQuery } from '@redux/login/login.api';
+import { ILoginResponseEmailCode, ILoginResponseSmsCode } from '@redux/components/login/__types__';
+import { useLazyLoginCodeEmailQuery, useLazyLoginSmsCodeQuery } from '@redux/components/login/login.api';
 import Confirmation from '@shared/components/modals/Confirmation';
 import { ConfirmationCode } from '@shared/enum/confirmationCode.enum';
 

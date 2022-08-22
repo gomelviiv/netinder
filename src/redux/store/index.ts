@@ -1,20 +1,25 @@
-import { loginApi } from '@redux/login/login.api';
-import { loginReducer } from '@redux/login/login.slice';
-import { matchesApi } from '@redux/matches/matches.api';
-import { userApi } from '@redux/user/user.api';
+import { persistReducer, persistStore } from 'redux-persist';
+import storage from 'redux-persist/lib/storage';
+
+import setMiddleware from '@redux/middleware';
+import reducers from '@redux/reducers';
 import { configureStore } from '@reduxjs/toolkit';
 
+const persistConfig = {
+  key: 'root',
+  storage: storage,
+  version: 1,
+};
+
+const persistedReducer = persistReducer(persistConfig, reducers);
+
 const store = configureStore({
-  reducer: {
-    [loginApi.reducerPath]: loginApi.reducer,
-    [matchesApi.reducerPath]: matchesApi.reducer,
-    [userApi.reducerPath]: userApi.reducer,
-    login: loginReducer,
-  },
-  middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(loginApi.middleware).concat(matchesApi.middleware).concat(userApi.middleware),
+  reducer: persistedReducer,
+  middleware: setMiddleware(),
 });
 
-export default store;
+const persistor = persistStore(store);
+
+export { store, persistor };
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;

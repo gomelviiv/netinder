@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { Card, Typography } from '@mui/material';
+import { Card, ImageListItem as ImageListItemMaterial, Typography } from '@mui/material';
 
 const ProfileContainer = styled.section`
   display: flex;
@@ -24,9 +24,29 @@ const ProfileDescriptionField = styled(Typography)`
     margin-right: 8px;
   }
 `;
-
+const ImageListItem = styled(ImageListItemMaterial)`
+  background-size: cover;
+`;
 const ProfileImagesContainer = styled.div``;
 
 const ProfileImage = styled.div``;
 
-export { ProfileContainer, ProfileDescriptionContainer, ProfileDescriptionField, ProfileImagesContainer, ProfileImage };
+const ProfileActionsContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  margin-top: 24px;
+
+  .MuiButtonBase-root:first-child {
+    margin-right: 24px;
+  }
+`;
+
+export {
+  ProfileContainer,
+  ImageListItem,
+  ProfileDescriptionContainer,
+  ProfileDescriptionField,
+  ProfileImagesContainer,
+  ProfileImage,
+  ProfileActionsContainer,
+};

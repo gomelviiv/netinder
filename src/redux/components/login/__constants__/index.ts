@@ -1,6 +1,6 @@
-import { ITinderProfile } from '../__types__';
+import { ILoginInformation } from '../__types__';
 
-const initialState: ITinderProfile = {
+const initialState: ILoginInformation = {
   phoneNumber: null,
   smsCode: null,
   emailCode: null,

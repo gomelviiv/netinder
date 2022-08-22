@@ -30,7 +30,7 @@ const Confirmation = <T extends { phoneNumber: string }>({ title, name, queryFun
   };
 
   return (
-    <Modal isOpen={isOpen} onRequestClose={closeModal} ariaHideApp={false} contentLabel="Example Modal">
+    <Modal isOpen={isOpen} onRequestClose={closeModal} ariaHideApp={false} contentLabel="login Modal">
       <form onSubmit={handleSubmit(onSubmit)}>
         <h2 className="p-2">{title}</h2>
         <TextField {...register(`${name}`)} label={title} variant="outlined" />

@@ -1,3 +1,5 @@
+import { Link as LinkReactRouterDom } from 'react-router-dom';
+
 import styled from '@emotion/styled';
 import {
   Button,
@@ -14,7 +16,6 @@ type ButtonProps = {
 const CardContainer = styled(Card)`
   display: flex;
   flex-direction: column;
-  height: 600px;
   max-width: 400px;
   justify-content: space-between;
 
@@ -22,20 +23,31 @@ const CardContainer = styled(Card)`
     padding: 0;
   }
 `;
+
+const Link = styled(LinkReactRouterDom)`
+  text-decoration: none;
+  color: black;
+
+  .MuiCardContent-root {
+    &:last-child {
+      padding-bottom: 0;
+    }
+  }
+`;
+
 const CardContent = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  height: 550px;
 `;
 
 const CardImg = styled(CardMedia)`
-  height: 450px;
+  height: 500px;
+  background-size: cover;
   width: 100%;
 ` as typeof CardMedia;
 
 const CardDescription = styled.div`
-  height: 90px;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -50,9 +62,7 @@ const CardYears = styled(Typography)`
   margin-left: 1rem;
 `;
 
-const CardActions = styled(MaterialCardActions)`
-  height: 50px;
-`;
+const CardActions = styled(MaterialCardActions)``;
 
 const CardButton = styled(Button)<ButtonProps>`
   background-color: ${(props) => (props.bg === 'red' ? 'red' : 'green')};
@@ -65,4 +75,4 @@ const CardButton = styled(Button)<ButtonProps>`
   }
 `;
 
-export { CardActions, CardContainer, CardContent, CardDescription, CardName, CardYears, CardImg, CardButton };
+export { CardActions, CardContainer, CardContent, CardDescription, CardName, CardYears, CardImg, CardButton, Link };

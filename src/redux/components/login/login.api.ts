@@ -8,10 +8,9 @@ export const loginApi = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: 'http://172.17.110.23:8080',
   }),
-  tagTypes: ['Login'],
   refetchOnFocus: false,
   endpoints: (build) => ({
-    loginPhoneNumber: build.query<{ tinderWebToken: string }, ILoginResponsePhone>({
+    loginPhoneNumber: build.mutation<{ tinderWebToken: string }, ILoginResponsePhone>({
       query: (data: ILoginResponsePhone) => ({
         url: `/authByPhone`,
         method: 'GET',
@@ -19,12 +18,10 @@ export const loginApi = createApi({
           PhoneNumber: `${data.phoneNumber}`,
         },
       }),
-      providesTags: ['Login'],
-      async onQueryStarted(loginData, { dispatch, queryFulfilled }) {
+      async onQueryStarted(_, { dispatch, queryFulfilled }) {
         console.log('Fetching post...');
         try {
           const { data } = await queryFulfilled;
-          console.log(data);
           dispatch(saveToken(data.tinderWebToken));
         } catch (err) {
           console.log('Error fetching post!');
@@ -54,4 +51,4 @@ export const loginApi = createApi({
   }),
 });
 
-export const { useLazyLoginPhoneNumberQuery, useLazyLoginSmsCodeQuery, useLazyLoginCodeEmailQuery } = loginApi;
+export const { useLoginPhoneNumberMutation, useLazyLoginSmsCodeQuery, useLazyLoginCodeEmailQuery } = loginApi;

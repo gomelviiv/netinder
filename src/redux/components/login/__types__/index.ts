@@ -1,4 +1,4 @@
-export interface ITinderProfile {
+export interface ILoginInformation {
   phoneNumber: string;
   smsCode: string;
   emailCode: string;

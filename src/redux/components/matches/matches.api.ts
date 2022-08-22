@@ -15,35 +15,44 @@ export const matchesApi = createApi({
         url: `/getMatches`,
         method: 'GET',
         headers: {
-          token: data.token,
+          'X-Auth-Token': data.token,
           phoneNumber: data.phoneNumber,
         },
       }),
+      // async onQueryStarted(_, { dispatch, queryFulfilled }) {
+      //   try {
+      //     const { data } = await queryFulfilled;
+      //     console.log('redux', data);
+      //     dispatch(setMatches(data));
+      //   } catch (err) {
+      //     console.log('Error fetching post!');
+      //   }
+      // },
     }),
     likeMatch: build.query<string, IMatchActionRequest>({
       query: (data: IMatchActionRequest) => ({
-        url: `/url2/like/${data.id}`,
+        url: `/like/${data.id}`,
         method: 'GET',
         headers: {
-          token: data.token,
+          'X-Auth-Token': data.token,
         },
       }),
     }),
     dislikeMatch: build.query<string, IMatchActionRequest>({
       query: (data: IMatchActionRequest) => ({
-        url: `/url2`,
+        url: `/pass/${data.id}`,
         method: 'GET',
         headers: {
-          token: data.token,
+          'X-Auth-Token': data.token,
         },
       }),
     }),
     getMatchById: build.query<IMatchProfile, IMatchActionRequest>({
       query: (data: IMatchActionRequest) => ({
-        url: `url/${data.id}`,
+        url: `user/${data.id}`,
         method: 'GET',
         headers: {
-          token: data.token,
+          'X-Auth-Token': data.token,
         },
       }),
       transformResponse: (response: ITinderResponseMatchProfile) => ({

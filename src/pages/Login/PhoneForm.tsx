@@ -1,17 +1,19 @@
 import React, { FC, useCallback, useContext } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
 
 import { Button, TextField } from '@mui/material';
+import { ILoginResponsePhone } from '@redux/components/login/__types__';
+import { useLoginPhoneNumberMutation } from '@redux/components/login/login.api';
+import { savePhone } from '@redux/components/login/login.slice';
 import { useAppDispatch } from '@redux/hooks';
-import { ILoginResponsePhone } from '@redux/login/__types__';
-import { useLazyLoginPhoneNumberQuery } from '@redux/login/login.api';
-import { savePhone } from '@redux/login/login.slice';
 
 import { StepperContext } from './Stepper';
 
 const PhoneForm: FC = () => {
+  const navigate = useNavigate();
   const { goToNextStep } = useContext(StepperContext);
-  const [sendPhoneNumber] = useLazyLoginPhoneNumberQuery();
+  const [sendPhoneNumber] = useLoginPhoneNumberMutation();
 
   const { register, handleSubmit, getValues } = useForm<ILoginResponsePhone>();
 
@@ -21,6 +23,7 @@ const PhoneForm: FC = () => {
     sendPhoneNumber(data);
 
     goToNextStep();
+    navigate('/home');
   };
 
   const handleSubmitPhone = useCallback((phone: string) => dispatch(savePhone(phone)), [dispatch]);

@@ -15,9 +15,17 @@ export const userApi = createApi({
         url: `/profile`,
         method: 'GET',
         headers: {
-          token,
+          'X-Auth-Token': token,
         },
       }),
+      // async onQueryStarted(_, { dispatch, queryFulfilled }) {
+      //   try {
+      //     const { data } = await queryFulfilled;
+      //     dispatch(setUser(data));
+      //   } catch (err) {
+      //     console.log('Error fetching post!');
+      //   }
+      // },
       transformResponse: (response: ITinderResponseUserData) => ({
         name: response.name,
         email: response.email,

@@ -8,6 +8,11 @@ interface ITeaser {
   string: string;
 }
 
+interface IJobs {
+  company: { name: string };
+  title: { name: string };
+}
+
 interface IBadge {
   type: string;
 }
@@ -135,4 +140,4 @@ interface ITinderResponseMatchProfile {
   results: IResults;
 }
 
-export type { ITinderResponseMatchProfile, IPhoto, IUserInterests, ISchool, ICity };
+export type { ITinderResponseMatchProfile, IJobs, IPhoto, IUserInterests, ISchool, ICity };
