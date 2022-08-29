@@ -8,10 +8,15 @@ const UserArticle = styled.article`
 
 const UserInformation = styled.div`
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   justify-content: center;
   align-items: center;
   margin-bottom: 24px;
+
+  .MuiButtonBase-root {
+    margin-left: 64px;
+    color: black;
+  }
 `;
 
 const BaseInformation = styled.div`

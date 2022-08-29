@@ -1,6 +1,8 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 const path = require('path');
 const ESLintPlugin = require('eslint-webpack-plugin');
+const dotenv = require('dotenv');
+const { DefinePlugin } = require('webpack');
 
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 module.exports = {
@@ -68,6 +70,9 @@ module.exports = {
     }),
     new ESLintPlugin({
       extensions: ['js', 'jsx', 'ts', 'tsx'],
+    }),
+    new DefinePlugin({
+      'process.env': JSON.stringify(dotenv.config().parsed),
     }),
   ],
 };

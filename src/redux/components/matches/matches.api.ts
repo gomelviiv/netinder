@@ -1,14 +1,20 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/dist/query/react';
 
-import { IAllMatchesRequest, IMatch, IMatchActionRequest, IMatchProfile } from './__types__/matches';
+import {
+  IAllMatchesRequest,
+  IMatch,
+  IMatchActionRequest,
+  IMatchProfile,
+} from './__types__/matches';
 import { ITinderResponseMatchProfile } from './__types__/matches.tinder.response';
 
 export const matchesApi = createApi({
   reducerPath: 'matches/api',
   baseQuery: fetchBaseQuery({
-    baseUrl: 'http://172.17.110.23:8080',
+    baseUrl: process.env.APP_URL || '/',
   }),
-  refetchOnFocus: false,
+  tagTypes: ['GetMatch', 'LikeMatch', 'DislikeMatch', 'GetMatchById'],
+  refetchOnFocus: true,
   endpoints: (build) => ({
     getAllMatches: build.query<IMatch[], IAllMatchesRequest>({
       query: (data: IAllMatchesRequest) => ({
@@ -19,15 +25,7 @@ export const matchesApi = createApi({
           phoneNumber: data.phoneNumber,
         },
       }),
-      // async onQueryStarted(_, { dispatch, queryFulfilled }) {
-      //   try {
-      //     const { data } = await queryFulfilled;
-      //     console.log('redux', data);
-      //     dispatch(setMatches(data));
-      //   } catch (err) {
-      //     console.log('Error fetching post!');
-      //   }
-      // },
+      providesTags: ['GetMatch'],
     }),
     likeMatch: build.query<string, IMatchActionRequest>({
       query: (data: IMatchActionRequest) => ({
@@ -37,6 +35,7 @@ export const matchesApi = createApi({
           'X-Auth-Token': data.token,
         },
       }),
+      providesTags: ['LikeMatch'],
     }),
     dislikeMatch: build.query<string, IMatchActionRequest>({
       query: (data: IMatchActionRequest) => ({
@@ -46,6 +45,7 @@ export const matchesApi = createApi({
           'X-Auth-Token': data.token,
         },
       }),
+      providesTags: ['DislikeMatch'],
     }),
     getMatchById: build.query<IMatchProfile, IMatchActionRequest>({
       query: (data: IMatchActionRequest) => ({
@@ -55,6 +55,7 @@ export const matchesApi = createApi({
           'X-Auth-Token': data.token,
         },
       }),
+      providesTags: ['GetMatchById'],
       transformResponse: (response: ITinderResponseMatchProfile) => ({
         name: response.results.name,
         bio: response.results.bio,

@@ -1,34 +1,58 @@
-export interface ILoginInformation {
+import { IPosition } from '@shared/interface/position.interface';
+
+interface ILoginInformation {
   phoneNumber: string;
   smsCode: string;
   emailCode: string;
   token: string;
+  sessionHash: string;
 }
 
-export interface IMeta {
+interface IMeta {
   status: number;
 }
 
-export interface IData {
+interface IData {
   otp_length: number;
   sms_sent: boolean;
 }
 
-export interface ILoginRequestData {
+interface ILoginRequestData {
   meta: IMeta;
   data: IData;
 }
 
-export interface ILoginResponsePhone {
+interface ILoginRequestPhoneNumber {
   phoneNumber: string;
+  position: IPosition;
 }
 
-export interface ILoginResponseSmsCode {
+interface ILoginRequestSmsCode {
   smsCode: string;
-  phoneNumber: string;
+  sessionHash: string;
 }
 
-export interface ILoginResponseEmailCode {
+interface ILoginRequestEmailCode {
   emailCode: string;
-  phoneNumber: string;
+  sessionHash: string;
 }
+
+interface ILoginEmailResponse {
+  tinderWebToken: string;
+}
+
+interface ILoginResponsePhoneNumber {
+  sessionHash: string;
+}
+
+export type {
+  ILoginResponsePhoneNumber,
+  ILoginEmailResponse,
+  ILoginRequestEmailCode,
+  ILoginRequestSmsCode,
+  ILoginRequestPhoneNumber,
+  ILoginRequestData,
+  IData,
+  IMeta,
+  ILoginInformation,
+};

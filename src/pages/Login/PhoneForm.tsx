@@ -1,34 +1,44 @@
-import React, { FC, useCallback, useContext } from 'react';
+import React, { FC, useContext, useEffect } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { useNavigate } from 'react-router-dom';
 
 import { Button, TextField } from '@mui/material';
-import { ILoginResponsePhone } from '@redux/components/login/__types__';
-import { useLoginPhoneNumberMutation } from '@redux/components/login/login.api';
+import { ILoginRequestPhoneNumber } from '@redux/components/login/__types__';
+import { useLazyLoginPhoneNumberQuery } from '@redux/components/login/login.api';
 import { savePhone } from '@redux/components/login/login.slice';
 import { useAppDispatch } from '@redux/hooks';
+import Alert from '@shared/components/Alert';
+import usePostition from '@shared/hooks/usePostition';
 
 import { StepperContext } from './Stepper';
 
-const PhoneForm: FC = () => {
-  const navigate = useNavigate();
+const PhoneForm: FC = (): JSX.Element => {
   const { goToNextStep } = useContext(StepperContext);
-  const [sendPhoneNumber] = useLoginPhoneNumberMutation();
+  const [sendPhoneNumber, { isSuccess, isError: isErrorPhoneNumber, error: errorPhoneNumber }] =
+    useLazyLoginPhoneNumberQuery();
+  const { error, ...position } = usePostition();
 
-  const { register, handleSubmit, getValues } = useForm<ILoginResponsePhone>();
+  const { register, handleSubmit, getValues } = useForm<ILoginRequestPhoneNumber>();
 
   const dispatch = useAppDispatch();
-  const onSubmit: SubmitHandler<ILoginResponsePhone> = (data) => {
-    handleSubmitPhone(getValues('phoneNumber'));
-    sendPhoneNumber(data);
+  const onSubmit: SubmitHandler<ILoginRequestPhoneNumber> = (data) => {
+    if (error) {
+      return console.log(error);
+    }
 
-    goToNextStep();
-    navigate('/home');
+    dispatch(savePhone(getValues('phoneNumber')));
+    sendPhoneNumber({ phoneNumber: data.phoneNumber, position });
   };
 
-  const handleSubmitPhone = useCallback((phone: string) => dispatch(savePhone(phone)), [dispatch]);
+  useEffect(() => {
+    if (isSuccess) {
+      goToNextStep();
+    }
+  }, [isSuccess]);
+
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
+      {isErrorPhoneNumber && <Alert error={errorPhoneNumber} />}
+
       <h2 className="p-2">Введите телефон:</h2>
       <TextField {...register('phoneNumber')} label="phone...." variant="outlined" />
       <Button type="submit" variant="outlined">

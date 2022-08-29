@@ -15,6 +15,7 @@ interface IAllMatchesRequest {
 interface IMatchActionRequest {
   id: string;
   token: string;
+  phoneNumber: string;
 }
 
 interface IMatchProfile {

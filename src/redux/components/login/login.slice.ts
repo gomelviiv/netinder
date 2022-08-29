@@ -19,8 +19,18 @@ export const loginSlice = createSlice({
     saveToken(state: ILoginInformation, action: PayloadAction<string>) {
       state.token = action.payload;
     },
+    saveSessionHash(state: ILoginInformation, action: PayloadAction<string>) {
+      state.sessionHash = action.payload;
+    },
+    logOut(state: ILoginInformation) {
+      state.phoneNumber = null;
+      state.smsCode = null;
+      state.emailCode = null;
+      state.token = null;
+      state.sessionHash = null;
+    },
   },
 });
 
-export const { savePhone, saveSmsCode, saveEmailCode, saveToken } = loginSlice.actions;
+export const { logOut, savePhone, saveSmsCode, saveEmailCode, saveToken, saveSessionHash } = loginSlice.actions;
 export const loginReducer = loginSlice.reducer;

@@ -1,7 +1,11 @@
-import React, { FC } from 'react';
+import React, { FC, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
-import { ILoginResponseEmailCode, ILoginResponseSmsCode } from '@redux/components/login/__types__';
-import { useLazyLoginCodeEmailQuery, useLazyLoginSmsCodeQuery } from '@redux/components/login/login.api';
+import { ILoginRequestEmailCode, ILoginRequestSmsCode } from '@redux/components/login/__types__';
+import {
+  useLazyLoginCodeEmailQuery,
+  useLazyLoginSmsCodeQuery,
+} from '@redux/components/login/login.api';
 import Confirmation from '@shared/components/modals/Confirmation';
 import { ConfirmationCode } from '@shared/enum/confirmationCode.enum';
 
@@ -9,8 +13,19 @@ import PhoneForm from './PhoneForm';
 import Stepper, { Step } from './Stepper';
 
 const Login: FC = () => {
-  const [sendSmsCode] = useLazyLoginSmsCodeQuery();
-  const [sendEmailCode] = useLazyLoginCodeEmailQuery();
+  const [
+    sendSmsCode,
+    { error: smsCodeError, isError: isSmsCodeError, isSuccess: isSuccessSmsCode },
+  ] = useLazyLoginSmsCodeQuery();
+  const [
+    sendEmailCode,
+    { error: emailCodeError, isError: isEmailCodeError, isSuccess: isSuccessEmailCode },
+  ] = useLazyLoginCodeEmailQuery();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    navigate('/home');
+  }, [isSuccessEmailCode]);
 
   return (
     <div>
@@ -20,18 +35,24 @@ const Login: FC = () => {
         </Step>
 
         <Step step={1}>
-          <Confirmation<ILoginResponseSmsCode>
+          <Confirmation<ILoginRequestSmsCode>
             title="смс"
             name={ConfirmationCode.SMS_CODE}
             queryFunction={sendSmsCode}
+            error={smsCodeError}
+            isError={isSmsCodeError}
+            isSuccess={isSuccessSmsCode}
           />
         </Step>
 
         <Step step={2}>
-          <Confirmation<ILoginResponseEmailCode>
+          <Confirmation<ILoginRequestEmailCode>
             title="емаил код"
             name={ConfirmationCode.EMAIL_CODE}
             queryFunction={sendEmailCode}
+            error={emailCodeError}
+            isError={isEmailCodeError}
+            isSuccess={isSuccessEmailCode}
           />
         </Step>
       </Stepper>

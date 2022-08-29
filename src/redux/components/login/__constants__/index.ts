@@ -5,6 +5,7 @@ const initialState: ILoginInformation = {
   smsCode: null,
   emailCode: null,
   token: null,
+  sessionHash: null,
 };
 
 export { initialState };

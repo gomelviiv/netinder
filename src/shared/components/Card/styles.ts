@@ -1,17 +1,7 @@
 import { Link as LinkReactRouterDom } from 'react-router-dom';
 
 import styled from '@emotion/styled';
-import {
-  Button,
-  Card,
-  CardMedia,
-  CardActions as MaterialCardActions, //   CardContent as MaterialCardContent,
-  Typography,
-} from '@mui/material';
-
-type ButtonProps = {
-  bg?: string;
-};
+import { Card, CardMedia, CardActions as MaterialCardActions, Typography } from '@mui/material';
 
 const CardContainer = styled(Card)`
   display: flex;
@@ -64,15 +54,13 @@ const CardYears = styled(Typography)`
 
 const CardActions = styled(MaterialCardActions)``;
 
-const CardButton = styled(Button)<ButtonProps>`
-  background-color: ${(props) => (props.bg === 'red' ? 'red' : 'green')};
-  color: white;
-  width: 200px;
-  font-size: 14px;
-
-  &:hover {
-    background-color: ${(props) => (props.bg === 'red' ? '#bb0707' : '#086208')};
-  }
-`;
-
-export { CardActions, CardContainer, CardContent, CardDescription, CardName, CardYears, CardImg, CardButton, Link };
+export {
+  CardActions,
+  CardContainer,
+  CardContent,
+  CardDescription,
+  CardName,
+  CardYears,
+  CardImg,
+  Link,
+};

@@ -10,13 +10,22 @@ const ProfileContainer = styled.section`
 
 const ProfileDescriptionContainer = styled(Card)`
   display: flex;
+  width 100%;
   max-width: 500px;
   flex-direction: column;
+  width: 500%;
+  
+  .MuiTypography-root {
+    display: flex;
+    align-items: center;
+ 
+  }
 `;
 
 const ProfileDescriptionField = styled(Typography)`
   padding: 4px 12px;
   display: flex;
+
   justify-content: flex-start;
   align-items: flex-start;
 
@@ -36,7 +45,10 @@ const ProfileActionsContainer = styled.div`
   flex-direction: row;
   margin-top: 24px;
 
-  .MuiButtonBase-root:first-child {
+  .MuiButtonBase-root:first-of-type {
+    margin-right: 24px;
+  }
+  .MuiSkeleton-rectangular {
     margin-right: 24px;
   }
 `;

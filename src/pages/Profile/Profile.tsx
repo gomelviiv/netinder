@@ -1,19 +1,15 @@
 import { isEmpty } from 'lodash';
-import React, { FC, useCallback, useState } from 'react';
+import React, { FC, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
 import HomeRepairServiceIcon from '@mui/icons-material/HomeRepairService';
 import HouseIcon from '@mui/icons-material/House';
 import SchoolIcon from '@mui/icons-material/School';
-import { Divider, ImageList, Typography } from '@mui/material';
+import { Divider, ImageList, Skeleton, Typography } from '@mui/material';
 import { IJobs, ISchool } from '@redux/components/matches/__types__/matches.tinder.response';
-import {
-  useGetMatchByIdQuery,
-  useLazyDislikeMatchQuery,
-  useLazyLikeMatchQuery,
-} from '@redux/components/matches/matches.api';
+import { useGetMatchByIdQuery } from '@redux/components/matches/matches.api';
 import { useAppSelector } from '@redux/hooks';
-import { CardButton } from '@shared/components/Card/styles';
+import LikeDislikeButtons from '@shared/components/LikeDislikeButtons';
 import Carousel from '@shared/components/modals/Carousel/Carousel';
 
 import {
@@ -25,34 +21,72 @@ import {
   ProfileImagesContainer,
 } from './styles';
 
-const enum Actiontype {
-  LIKE = 'LIKE',
-  DISLIKE = 'DISLIKE',
-}
-
 const Profile: FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   const { id } = useParams();
-  const login = useAppSelector((data) => data.login);
-  const { data, isLoading } = useGetMatchByIdQuery({ id, token: login.token });
-  const [handleLike] = useLazyLikeMatchQuery();
-  const [handleDislike] = useLazyDislikeMatchQuery();
+  const loginState = useAppSelector((data) => data.login);
+  const { data, isLoading } = useGetMatchByIdQuery({
+    id,
+    token: loginState.token,
+    phoneNumber: loginState.phoneNumber,
+  });
 
-  const openModalCarousel = (index) => {
+  const openModalCarousel = (index: number) => {
     setSelectedImageIndex(index);
     setIsOpen((e) => !e);
   };
 
-  const hanldleActionClick = useCallback(
-    (name: string, tinderId = id, token = login.token) =>
-      name == Actiontype.LIKE ? handleLike({ id: tinderId, token }) : handleDislike({ id: tinderId, token }),
-    [handleDislike, handleLike, login, id],
-  );
   return (
     <div>
       {isLoading ? (
-        <Typography>Loading...</Typography>
+        <ProfileContainer>
+          <ProfileDescriptionContainer>
+            <Divider>
+              <Typography>Общая информация</Typography>
+            </Divider>
+            <ProfileDescriptionField>
+              <Skeleton animation="wave" variant="text" width="100%" height={40} />
+            </ProfileDescriptionField>
+
+            <ProfileDescriptionField>
+              <HomeRepairServiceIcon />
+              <Skeleton animation="wave" variant="text" width="100%" height={40} />
+            </ProfileDescriptionField>
+
+            <ProfileDescriptionField>
+              <SchoolIcon />
+              <Skeleton animation="wave" variant="text" width="100%" height={40} />
+            </ProfileDescriptionField>
+
+            <ProfileDescriptionField>
+              <HouseIcon />
+              <Skeleton animation="wave" variant="text" width="100%" height={40} />
+            </ProfileDescriptionField>
+            <Divider>
+              <Typography>Описание</Typography>
+            </Divider>
+            <ProfileDescriptionField>
+              <Skeleton animation="wave" variant="text" width="100%" height={70} />
+            </ProfileDescriptionField>
+            <ProfileDescriptionField></ProfileDescriptionField>
+          </ProfileDescriptionContainer>
+
+          <ProfileActionsContainer>
+            <Skeleton animation="wave" variant="rectangular" width={200} height={40} />
+            <Skeleton animation="wave" variant="rectangular" width={200} height={40} />
+          </ProfileActionsContainer>
+
+          <ProfileImagesContainer>
+            <ImageList sx={{ width: 1200 }} cols={3}>
+              {[1, 2, 3, 4, 5, 6].map((_, index) => (
+                <ImageListItem key={index}>
+                  <Skeleton animation="wave" variant="rectangular" width={370} height={550} />
+                </ImageListItem>
+              ))}
+            </ImageList>
+          </ProfileImagesContainer>
+        </ProfileContainer>
       ) : (
         <ProfileContainer>
           <ProfileDescriptionContainer>
@@ -75,10 +109,12 @@ const Profile: FC = () => {
                   <> {school.name}</>
                 </ProfileDescriptionField>
               ))}
-            <ProfileDescriptionField>
-              <HouseIcon />
-              {data.city.name}
-            </ProfileDescriptionField>
+            {data.city && (
+              <ProfileDescriptionField>
+                <HouseIcon />
+                {data.city.name}
+              </ProfileDescriptionField>
+            )}
             <Divider>
               <Typography>Описание</Typography>
             </Divider>
@@ -87,10 +123,7 @@ const Profile: FC = () => {
           </ProfileDescriptionContainer>
 
           <ProfileActionsContainer>
-            <CardButton bg="red" onClick={() => hanldleActionClick(Actiontype.DISLIKE)}>
-              DELETE
-            </CardButton>
-            <CardButton onClick={() => hanldleActionClick(Actiontype.LIKE)}> MATCH </CardButton>
+            <LikeDislikeButtons id={id} />
           </ProfileActionsContainer>
 
           <ProfileImagesContainer>
@@ -106,7 +139,12 @@ const Profile: FC = () => {
                   />
                 </ImageListItem>
               ))}
-              <Carousel isOpen={isOpen} selectedIndex={selectedImageIndex} photos={data.photos} setIsOpen={setIsOpen} />
+              <Carousel
+                isOpen={isOpen}
+                selectedIndex={selectedImageIndex}
+                photos={data.photos}
+                setIsOpen={setIsOpen}
+              />
             </ImageList>
           </ProfileImagesContainer>
         </ProfileContainer>

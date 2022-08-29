@@ -6,9 +6,9 @@ import { ITinderResponseUserData } from './__types__/user.tinder.response';
 export const userApi = createApi({
   reducerPath: 'user/api',
   baseQuery: fetchBaseQuery({
-    baseUrl: 'http://172.17.110.23:8080',
+    baseUrl: process.env.APP_URL || '/',
   }),
-  refetchOnFocus: false,
+  refetchOnFocus: true,
   endpoints: (build) => ({
     getUserInformation: build.query<IUser, string>({
       query: (token: string) => ({
@@ -18,14 +18,6 @@ export const userApi = createApi({
           'X-Auth-Token': token,
         },
       }),
-      // async onQueryStarted(_, { dispatch, queryFulfilled }) {
-      //   try {
-      //     const { data } = await queryFulfilled;
-      //     dispatch(setUser(data));
-      //   } catch (err) {
-      //     console.log('Error fetching post!');
-      //   }
-      // },
       transformResponse: (response: ITinderResponseUserData) => ({
         name: response.name,
         email: response.email,
