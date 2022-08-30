@@ -6,7 +6,7 @@ type ButtonProps = {
 };
 
 const CardButton = styled(Button)<ButtonProps>`
-  background-color: ${(props) => (props.bg === 'red' ? 'red' : 'green')};
+  background-color: ${(props) => (props.bg === 'red' ? '#f56363' : '#59bd59')};
   color: white;
   width: 200px;
   font-size: 14px;

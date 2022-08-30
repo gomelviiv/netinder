@@ -140,4 +140,13 @@ interface ITinderResponseMatchProfile {
   results: IResults;
 }
 
-export type { ITinderResponseMatchProfile, IJobs, IPhoto, IUserInterests, ISchool, ICity };
+export type {
+  ITinderResponseMatchProfile,
+  IJobs,
+  IPhoto,
+  IUserInterests,
+  ISelectedDescriptor,
+  ISchool,
+  ICity,
+  ISelectedInterest,
+};

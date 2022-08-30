@@ -65,7 +65,6 @@ export const loginApi = createApi({
         },
       }),
       async onQueryStarted(_, { dispatch, queryFulfilled }) {
-        console.log('Fetching post...');
         try {
           const { data } = await queryFulfilled;
           dispatch(saveToken(data.tinderWebToken));
@@ -77,4 +76,8 @@ export const loginApi = createApi({
   }),
 });
 
-export const { useLazyLoginPhoneNumberQuery, useLazyLoginSmsCodeQuery, useLazyLoginCodeEmailQuery } = loginApi;
+export const {
+  useLazyLoginPhoneNumberQuery,
+  useLazyLoginSmsCodeQuery,
+  useLazyLoginCodeEmailQuery,
+} = loginApi;

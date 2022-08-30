@@ -14,11 +14,15 @@ import Carousel from '@shared/components/modals/Carousel/Carousel';
 
 import {
   ImageListItem,
+  Interests,
+  InterestsContainer,
   ProfileActionsContainer,
   ProfileContainer,
   ProfileDescriptionContainer,
   ProfileDescriptionField,
   ProfileImagesContainer,
+  ProfileImg,
+  ProfilePreview,
 } from './styles';
 
 const Profile: FC = () => {
@@ -89,38 +93,56 @@ const Profile: FC = () => {
         </ProfileContainer>
       ) : (
         <ProfileContainer>
+          <ProfilePreview>
+            <ProfileImg src={`${data.photos[0].url}`}></ProfileImg>
+            <Typography>{`${data.name} ${data.birthDate}`}</Typography>
+          </ProfilePreview>
           <ProfileDescriptionContainer>
-            <Divider>
-              <Typography>Общая информация</Typography>
-            </Divider>
-            <ProfileDescriptionField>{`${data.name} ${data.birthDate}`}</ProfileDescriptionField>
-            {isEmpty(data.jobs) &&
-              data.jobs.map((job: IJobs) => (
-                <ProfileDescriptionField key={`${job.company}${job.title}-${id}`}>
-                  <HomeRepairServiceIcon />
-                  <>где: {job.company}</>
-                  <>кто: {job.title}</>
+            <>
+              {(!isEmpty(data.jobs) || !isEmpty(data.schools) || data?.city) && (
+                <Divider>
+                  <Typography>Общая информация</Typography>
+                </Divider>
+              )}
+              {!isEmpty(data.jobs) &&
+                data.jobs.map((job: IJobs) => (
+                  <ProfileDescriptionField key={`${job.company}${job.title}-${id}`}>
+                    <HomeRepairServiceIcon />
+                    <>где: {job.company}</>
+                    <>кто: {job.title}</>
+                  </ProfileDescriptionField>
+                ))}
+              {!isEmpty(data.schools) &&
+                data.schools.map((school: ISchool) => (
+                  <ProfileDescriptionField key={`${school.displayed}${school.name}-${id}`}>
+                    <SchoolIcon />
+                    <> {school.name}</>
+                  </ProfileDescriptionField>
+                ))}
+              {data?.city && (
+                <ProfileDescriptionField>
+                  <HouseIcon />
+                  {data.city.name}
                 </ProfileDescriptionField>
-              ))}
-            {isEmpty(data.schools) &&
-              data.schools.map((school: ISchool) => (
-                <ProfileDescriptionField key={`${school.displayed}${school.name}-${id}`}>
-                  <SchoolIcon />
-                  <> {school.name}</>
-                </ProfileDescriptionField>
-              ))}
-            {data.city && (
-              <ProfileDescriptionField>
-                <HouseIcon />
-                {data.city.name}
-              </ProfileDescriptionField>
-            )}
-            <Divider>
-              <Typography>Описание</Typography>
-            </Divider>
-            <ProfileDescriptionField>{data.bio}</ProfileDescriptionField>
-            <ProfileDescriptionField></ProfileDescriptionField>
+              )}
+              {data.bio && (
+                <>
+                  <Divider>
+                    <Typography>Описание</Typography>
+                  </Divider>
+                  <ProfileDescriptionField>{data.bio}</ProfileDescriptionField>
+                  <ProfileDescriptionField></ProfileDescriptionField>
+                </>
+              )}
+            </>
           </ProfileDescriptionContainer>
+
+          <InterestsContainer>
+            {!isEmpty(data.userInterests) &&
+              data.userInterests.map((interest) => (
+                <Interests key={interest.id}>{interest.name}</Interests>
+              ))}
+          </InterestsContainer>
 
           <ProfileActionsContainer>
             <LikeDislikeButtons id={id} />

@@ -63,7 +63,7 @@ export const matchesApi = createApi({
         jobs: response.results.jobs,
         schools: response.results.schools,
         photos: response.results.photos,
-        userInterests: response.results.user_interests,
+        userInterests: response.results.user_interests.selected_interests,
         city: response.results.city,
       }),
     }),

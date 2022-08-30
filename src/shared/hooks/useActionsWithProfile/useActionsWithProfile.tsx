@@ -11,7 +11,6 @@ const useActionsWithProfile = (RTKHook, { token, phoneNumber }) => {
 
   const action = ({ id, token, phoneNumber }) => {
     functionAction({ id, token, phoneNumber });
-    console.log({ id, token, phoneNumber });
   };
 
   useEffect(() => {

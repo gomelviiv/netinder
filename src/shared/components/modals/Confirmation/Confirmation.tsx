@@ -35,7 +35,7 @@ const Confirmation = <T extends { sessionHash: string }>({
   const closeModal = () => {
     resetSteps();
   };
-  console.log(error, isError);
+
   const onSubmit: SubmitHandler<T> = (data) => {
     queryFunction({ [name]: data[name], sessionHash: loginState.sessionHash } as T);
     setIsOpen(false);
@@ -48,7 +48,12 @@ const Confirmation = <T extends { sessionHash: string }>({
   }, [isSuccess]);
 
   return (
-    <Modal isOpen={isOpen} onRequestClose={closeModal} ariaHideApp={false} contentLabel="login Modal">
+    <Modal
+      isOpen={isOpen}
+      onRequestClose={closeModal}
+      ariaHideApp={false}
+      contentLabel="login Modal"
+    >
       <form onSubmit={handleSubmit(onSubmit)}>
         {isError && <Alert error={error} />}
 

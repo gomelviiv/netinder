@@ -1,4 +1,11 @@
-import { ICity, IJobs, IPhoto, ISchool, IUserInterests } from './matches.tinder.response';
+import {
+  ICity,
+  IJobs,
+  IPhoto,
+  ISchool,
+  ISelectedInterest,
+  IUserInterests,
+} from './matches.tinder.response';
 
 interface IMatch {
   tinderId: string;
@@ -25,7 +32,7 @@ interface IMatchProfile {
   jobs: IJobs[];
   schools: ISchool[];
   photos: IPhoto[];
-  userInterests: IUserInterests;
+  userInterests: ISelectedInterest[];
   city: ICity;
 }
 
