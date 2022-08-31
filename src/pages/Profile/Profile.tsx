@@ -140,7 +140,9 @@ const Profile: FC = () => {
           <InterestsContainer>
             {!isEmpty(data.userInterests) &&
               data.userInterests.map((interest) => (
-                <Interests key={interest.id}>{interest.name}</Interests>
+                <Interests key={interest.id}>
+                  <Typography> {interest.name}</Typography>
+                </Interests>
               ))}
           </InterestsContainer>
 
