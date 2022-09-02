@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, memo } from 'react';
 
 import { CardContent } from '@mui/material';
 import { IMatch } from '@redux/components/matches/__types__/matches';
@@ -42,4 +42,4 @@ const CardComponent: FC<Props> = ({ match }) => {
   );
 };
 
-export default CardComponent;
+export default memo(CardComponent);

@@ -13,7 +13,7 @@ export const matchesApi = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: process.env.APP_URL || '/',
   }),
-  tagTypes: ['GetMatch', 'LikeMatch', 'DislikeMatch', 'GetMatchById'],
+  tagTypes: ['GetMatch', 'GetMatchById'],
   refetchOnFocus: true,
   endpoints: (build) => ({
     getAllMatches: build.query<IMatch[], IAllMatchesRequest>({
@@ -25,9 +25,12 @@ export const matchesApi = createApi({
           phoneNumber: data.phoneNumber,
         },
       }),
-      providesTags: ['GetMatch'],
+      providesTags: (result: IMatch[] | undefined) =>
+        result
+          ? [...result.map(({ name }) => ({ type: 'GetMatch' as const, name })), 'GetMatch']
+          : ['GetMatch'],
     }),
-    likeMatch: build.query<string, IMatchActionRequest>({
+    likeMatch: build.mutation<string, IMatchActionRequest>({
       query: (data: IMatchActionRequest) => ({
         url: `/like/${data.id}`,
         method: 'GET',
@@ -35,9 +38,9 @@ export const matchesApi = createApi({
           'X-Auth-Token': data.token,
         },
       }),
-      providesTags: ['LikeMatch'],
+      invalidatesTags: ['GetMatch'],
     }),
-    dislikeMatch: build.query<string, IMatchActionRequest>({
+    dislikeMatch: build.mutation<string, IMatchActionRequest>({
       query: (data: IMatchActionRequest) => ({
         url: `/pass/${data.id}`,
         method: 'GET',
@@ -45,7 +48,7 @@ export const matchesApi = createApi({
           'X-Auth-Token': data.token,
         },
       }),
-      providesTags: ['DislikeMatch'],
+      invalidatesTags: ['GetMatch'],
     }),
     getMatchById: build.query<IMatchProfile, IMatchActionRequest>({
       query: (data: IMatchActionRequest) => ({
@@ -55,6 +58,7 @@ export const matchesApi = createApi({
           'X-Auth-Token': data.token,
         },
       }),
+
       providesTags: ['GetMatchById'],
       transformResponse: (response: ITinderResponseMatchProfile) => ({
         name: response.results.name,
@@ -63,7 +67,7 @@ export const matchesApi = createApi({
         jobs: response.results.jobs,
         schools: response.results.schools,
         photos: response.results.photos,
-        userInterests: response.results.user_interests.selected_interests,
+        userInterests: response.results.user_interests?.selected_interests || [],
         city: response.results.city,
       }),
     }),
@@ -72,8 +76,8 @@ export const matchesApi = createApi({
 
 export const {
   useGetAllMatchesQuery,
-  useLazyLikeMatchQuery,
-  useLazyDislikeMatchQuery,
   useLazyGetAllMatchesQuery,
   useGetMatchByIdQuery,
+  useDislikeMatchMutation,
+  useLikeMatchMutation,
 } = matchesApi;

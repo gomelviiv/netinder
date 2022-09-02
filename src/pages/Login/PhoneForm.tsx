@@ -6,7 +6,7 @@ import { ILoginRequestPhoneNumber } from '@redux/components/login/__types__';
 import { useLazyLoginPhoneNumberQuery } from '@redux/components/login/login.api';
 import { savePhone } from '@redux/components/login/login.slice';
 import { useAppDispatch } from '@redux/hooks';
-import Alert from '@shared/components/Alert';
+import useErrorResponse from '@shared/hooks/useErrorResponse';
 import usePosition from '@shared/hooks/usePosition';
 
 import { StepperContext } from './Stepper';
@@ -16,10 +16,10 @@ const PhoneForm: FC = (): JSX.Element => {
   const [sendPhoneNumber, { isSuccess, isError: isErrorPhoneNumber, error: errorPhoneNumber }] =
     useLazyLoginPhoneNumberQuery();
   const { error, ...position } = usePosition();
-
   const { register, handleSubmit, getValues } = useForm<ILoginRequestPhoneNumber>();
-
   const dispatch = useAppDispatch();
+  const [checkError] = useErrorResponse();
+
   const onSubmit: SubmitHandler<ILoginRequestPhoneNumber> = (data) => {
     if (error) {
       return;
@@ -35,11 +35,12 @@ const PhoneForm: FC = (): JSX.Element => {
     }
   }, [isSuccess]);
 
+  useEffect(() => {
+    checkError(isErrorPhoneNumber, errorPhoneNumber);
+  }, [isErrorPhoneNumber, errorPhoneNumber]);
+
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      {isErrorPhoneNumber && <Alert error={errorPhoneNumber} />}
-      {!!error && <Alert error={error} />}
-
       <h2 className="p-2">Введите телефон:</h2>
       <TextField {...register('phoneNumber')} label="phone...." variant="outlined" />
       <Button type="submit" variant="outlined">

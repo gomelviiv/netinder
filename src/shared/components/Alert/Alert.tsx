@@ -1,20 +1,22 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 
+import { Typography } from '@mui/material';
 import AlertTitle from '@mui/material/AlertTitle';
+import { useAppSelector } from '@redux/hooks';
 
 import { AlertContainer, ErrorDialog } from './styles';
 
-interface Props {
-  error: any;
-}
-
-const Alert: FC<Props> = ({ error }) => {
-  const [isErrorDialog, setIsErrorDialog] = useState(true);
-  const { status } = error;
+const Alert: FC = () => {
+  const { data, isError, status } = useAppSelector((state) => state.errors);
+  const [isErrorDialog, setIsErrorDialog] = useState(false);
 
   const handleCloseErrorDialog = () => {
     setIsErrorDialog(false);
   };
+
+  useEffect(() => {
+    setIsErrorDialog(isError);
+  }, [isError]);
 
   return (
     <ErrorDialog
@@ -25,7 +27,9 @@ const Alert: FC<Props> = ({ error }) => {
     >
       <AlertContainer severity="error">
         <AlertTitle>Error: {status}</AlertTitle>
-        {error?.data.error}
+        <Typography>
+          <>Message: {data?.error}</>
+        </Typography>
       </AlertContainer>
     </ErrorDialog>
   );

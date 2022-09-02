@@ -1,14 +1,15 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import Modal from 'react-modal';
+import { useNavigate } from 'react-router-dom';
 
 import { Button, TextField } from '@mui/material';
 import { StepperContext } from '@pages/Login/Stepper';
 import { useAppSelector } from '@redux/hooks';
 import { SerializedError } from '@reduxjs/toolkit';
 import { FetchBaseQueryError } from '@reduxjs/toolkit/dist/query';
-import Alert from '@shared/components/Alert';
 import { ConfirmationCode } from '@shared/enum/confirmationCode.enum';
+import useErrorResponse from '@shared/hooks/useErrorResponse';
 
 interface Props<T> {
   title: string;
@@ -31,6 +32,8 @@ const Confirmation = <T extends { sessionHash: string }>({
   const { register, handleSubmit } = useForm();
   const { resetSteps, goToNextStep } = useContext(StepperContext);
   const loginState = useAppSelector((state) => state.login);
+  const navigate = useNavigate();
+  const [checkError] = useErrorResponse();
 
   const closeModal = () => {
     resetSteps();
@@ -43,9 +46,17 @@ const Confirmation = <T extends { sessionHash: string }>({
 
   useEffect(() => {
     if (isSuccess) {
-      goToNextStep();
+      if (name === ConfirmationCode.EMAIL_CODE) {
+        navigate('/home');
+      } else {
+        goToNextStep();
+      }
     }
   }, [isSuccess]);
+
+  useEffect(() => {
+    checkError(isError, error);
+  }, [isError, error]);
 
   return (
     <Modal
@@ -55,8 +66,6 @@ const Confirmation = <T extends { sessionHash: string }>({
       contentLabel="login Modal"
     >
       <form onSubmit={handleSubmit(onSubmit)}>
-        {isError && <Alert error={error} />}
-
         <h2 className="p-2">{title}</h2>
         <TextField {...register(`${name}`)} label={title} variant="outlined" />
         <Button type="submit" variant="outlined">

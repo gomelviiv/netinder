@@ -1,62 +1,68 @@
-import React, { FC, useCallback } from 'react';
+import React, { FC, memo, useCallback, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import {
-  useLazyDislikeMatchQuery,
-  useLazyLikeMatchQuery,
+  useDislikeMatchMutation,
+  useLikeMatchMutation,
 } from '@redux/components/matches/matches.api';
 import { useAppSelector } from '@redux/hooks';
-import useActionsWithProfile from '@shared/hooks/useActionsWithProfile';
+import useErrorResponse from '@shared/hooks/useErrorResponse';
 
-import Alert from '../Alert';
 import { CardButton } from './styles';
 
 interface Props {
   id: string;
 }
 
-const enum Actiontype {
-  LIKE = 'LIKE',
-  DISLIKE = 'DISLIKE',
-}
-
 const LikeDislikeButtons: FC<Props> = ({ id }) => {
   const loginState = useAppSelector((state) => state.login);
-  const [handleLike, errorLike, isErrorLike, isErrorGetMatchAfterLike, errorGetMatchAfterLike] =
-    useActionsWithProfile(useLazyLikeMatchQuery, {
-      token: loginState.token,
-      phoneNumber: loginState.phoneNumber,
-    });
+  const navigate = useNavigate();
+  const [handleLike, { isSuccess: isSuccessLike, isError: isErrorLike, error: errorLike }] =
+    useLikeMatchMutation();
   const [
     handleDislike,
-    errorDislike,
-    isErrorDislike,
-    isErrorGetMatchAfterDislike,
-    errorGetMatchAfterDislike,
-  ] = useActionsWithProfile(useLazyDislikeMatchQuery, {
-    token: loginState.token,
-    phoneNumber: loginState.phoneNumber,
-  });
+    { isSuccess: isSuccessDislike, isError: isErrorDislike, error: errorDislike },
+  ] = useDislikeMatchMutation();
+  const [checkError] = useErrorResponse();
 
-  const hanldleActionClick = useCallback(
-    (name: string, tinderId = id, token = loginState.token) =>
-      name == Actiontype.LIKE
-        ? handleLike({ id: tinderId, token, phoneNumber: loginState.phoneNumber })
-        : handleDislike({ id: tinderId, token, phoneNumber: loginState.phoneNumber }),
-    [id, handleDislike, handleLike, loginState],
+  const handleActionLike = useCallback(
+    () => handleLike({ id, token: loginState.token, phoneNumber: loginState.phoneNumber }),
+    [id, handleLike, loginState],
   );
+
+  const handleActionDislike = useCallback(
+    () => handleDislike({ id, token: loginState.token, phoneNumber: loginState.phoneNumber }),
+    [id, handleDislike, loginState],
+  );
+
+  useEffect(() => {
+    checkError(isErrorLike, errorLike);
+  }, [isErrorLike, errorLike]);
+
+  useEffect(() => {
+    checkError(isErrorDislike, errorDislike);
+  }, [isErrorDislike, errorDislike]);
+
+  useEffect(() => {
+    if (isSuccessLike) {
+      navigate('/home');
+    }
+  }, [isSuccessLike]);
+
+  useEffect(() => {
+    if (isSuccessDislike) {
+      navigate('/home');
+    }
+  }, [isSuccessDislike]);
 
   return (
     <>
-      {isErrorLike && <Alert error={errorLike} />}
-      {isErrorDislike && <Alert error={errorDislike} />}
-      {isErrorGetMatchAfterLike && <Alert error={errorGetMatchAfterLike} />}
-      {isErrorGetMatchAfterDislike && <Alert error={errorGetMatchAfterDislike} />}
-      <CardButton bg="red" onClick={() => hanldleActionClick(Actiontype.DISLIKE)}>
-        DELETE
+      <CardButton bg="red" onClick={() => handleActionDislike()}>
+        Удалить из пар
       </CardButton>
-      <CardButton onClick={() => hanldleActionClick(Actiontype.LIKE)}> MATCH </CardButton>
+      <CardButton onClick={() => handleActionLike()}> Образовать пару </CardButton>
     </>
   );
 };
 
-export default LikeDislikeButtons;
+export default memo(LikeDislikeButtons);

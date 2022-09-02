@@ -1,10 +1,10 @@
-import React, { FC } from 'react';
+import React, { FC, useEffect } from 'react';
 
 import { Alert as AlertMaterial, Typography } from '@mui/material/';
 import { useGetAllMatchesQuery } from '@redux/components/matches/matches.api';
 import { useAppSelector } from '@redux/hooks';
-import Alert from '@shared/components/Alert';
 import Card from '@shared/components/Card';
+import useErrorResponse from '@shared/hooks/useErrorResponse';
 
 import { CardsContainer, ContainerHome } from './styles';
 
@@ -24,10 +24,14 @@ const Home: FC = () => {
       refetchOnReconnect: true,
     },
   );
+  const [checkError] = useErrorResponse();
+
+  useEffect(() => {
+    checkError(isErrorMatches, errorMatches);
+  }, [isErrorMatches, errorMatches]);
 
   return (
     <ContainerHome>
-      {isErrorMatches && <Alert error={errorMatches} />}
       <CardsContainer>
         {isLoadingMatches ? (
           <Typography>Loading...</Typography>

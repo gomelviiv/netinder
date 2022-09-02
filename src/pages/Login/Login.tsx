@@ -1,5 +1,4 @@
-import React, { FC, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { FC } from 'react';
 
 import { ILoginRequestEmailCode, ILoginRequestSmsCode } from '@redux/components/login/__types__';
 import {
@@ -21,42 +20,35 @@ const Login: FC = () => {
     sendEmailCode,
     { error: emailCodeError, isError: isEmailCodeError, isSuccess: isSuccessEmailCode },
   ] = useLazyLoginCodeEmailQuery();
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    navigate('/home');
-  }, [isSuccessEmailCode]);
 
   return (
-    <div>
-      <Stepper>
-        <Step step={0}>
-          <PhoneForm />
-        </Step>
+    <Stepper>
+      <Step step={0}>
+        <PhoneForm />
+      </Step>
 
-        <Step step={1}>
-          <Confirmation<ILoginRequestSmsCode>
-            title="смс"
-            name={ConfirmationCode.SMS_CODE}
-            queryFunction={sendSmsCode}
-            error={smsCodeError}
-            isError={isSmsCodeError}
-            isSuccess={isSuccessSmsCode}
-          />
-        </Step>
+      <Step step={1}>
+        <Confirmation<ILoginRequestSmsCode>
+          title="смс"
+          name={ConfirmationCode.SMS_CODE}
+          queryFunction={sendSmsCode}
+          error={smsCodeError}
+          isError={isSmsCodeError}
+          isSuccess={isSuccessSmsCode}
+        />
+      </Step>
 
-        <Step step={2}>
-          <Confirmation<ILoginRequestEmailCode>
-            title="емаил код"
-            name={ConfirmationCode.EMAIL_CODE}
-            queryFunction={sendEmailCode}
-            error={emailCodeError}
-            isError={isEmailCodeError}
-            isSuccess={isSuccessEmailCode}
-          />
-        </Step>
-      </Stepper>
-    </div>
+      <Step step={2}>
+        <Confirmation<ILoginRequestEmailCode>
+          title="емаил код"
+          name={ConfirmationCode.EMAIL_CODE}
+          queryFunction={sendEmailCode}
+          error={emailCodeError}
+          isError={isEmailCodeError}
+          isSuccess={isSuccessEmailCode}
+        />
+      </Step>
+    </Stepper>
   );
 };
 

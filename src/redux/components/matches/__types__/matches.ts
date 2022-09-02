@@ -32,7 +32,7 @@ interface IMatchProfile {
   jobs: IJobs[];
   schools: ISchool[];
   photos: IPhoto[];
-  userInterests: ISelectedInterest[];
+  userInterests: ISelectedInterest[] | [];
   city: ICity;
 }
 

@@ -15,6 +15,7 @@ export const loginApi = createApi({
     baseUrl: process.env.APP_URL || '/',
     credentials: 'include',
   }),
+  tagTypes: ['PhoneNumber', 'SmsCode', 'EmailCode'],
   refetchOnFocus: true,
   endpoints: (build) => ({
     loginPhoneNumber: build.query<ILoginResponsePhoneNumber, ILoginRequestPhoneNumber>({
@@ -30,6 +31,7 @@ export const loginApi = createApi({
           altitude: data.position.altitude,
         },
       }),
+      providesTags: ['PhoneNumber'],
       async onQueryStarted(_, { dispatch, queryFulfilled }) {
         try {
           const { data } = await queryFulfilled;
@@ -39,7 +41,6 @@ export const loginApi = createApi({
         }
       },
     }),
-
     loginSmsCode: build.query<string, ILoginRequestSmsCode>({
       query: (data: ILoginRequestSmsCode) => ({
         url: `/${data.sessionHash}/smsConfirmationByPhone`,
@@ -48,13 +49,7 @@ export const loginApi = createApi({
           smsConfirmationCode: `${data.smsCode}`,
         },
       }),
-      async onQueryStarted(_, { queryFulfilled }) {
-        try {
-          await queryFulfilled;
-        } catch (err) {
-          console.log(err);
-        }
-      },
+      providesTags: ['SmsCode'],
     }),
     loginCodeEmail: build.query<ILoginEmailResponse, ILoginRequestEmailCode>({
       query: (data: ILoginRequestEmailCode) => ({
@@ -64,6 +59,7 @@ export const loginApi = createApi({
           emailConfirmationCode: `${data.emailCode}`,
         },
       }),
+      providesTags: ['EmailCode'],
       async onQueryStarted(_, { dispatch, queryFulfilled }) {
         try {
           const { data } = await queryFulfilled;

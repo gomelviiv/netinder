@@ -9,6 +9,7 @@ export const userApi = createApi({
     baseUrl: process.env.APP_URL || '/',
   }),
   refetchOnFocus: true,
+  tagTypes: ['User'],
   endpoints: (build) => ({
     getUserInformation: build.query<IUser, string>({
       query: (token: string) => ({
@@ -18,6 +19,7 @@ export const userApi = createApi({
           'X-Auth-Token': token,
         },
       }),
+      providesTags: ['User'],
       transformResponse: (response: ITinderResponseUserData) => ({
         name: response.name,
         email: response.email,
