@@ -4,4 +4,4 @@ COPY dist /app/dist
 COPY server.js /app/dist/server.js
 WORKDIR /app/dist
 RUN npm install express express-favicon path
-RUN node server.js
+ENTRYPOINT ["node", "server.js"]
