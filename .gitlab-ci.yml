@@ -1,0 +1,33 @@
+image: node:16-alpine
+
+stages:
+  - build and push docker image
+  - deploy
+
+docker build:
+  services:
+    - docker:19.03.13-dind
+  image: docker:19.03.13-dind
+  stage: build and push docker image
+  script:
+    - DOCKER_BUILDKIT=1
+    - sudo docker build -t $DOCKER_REPO:latest .
+    - sudo docker login -u artsem.yndx -p glpat-XxX5aF1rxEf1z_YTPVa1 registry.gitlab.com
+    - sudo docker push $DOCKER_REPO:latest
+  only:
+    - master
+deploy:
+  image: node:16-alpine
+  stage: deploy
+  before_script:
+    - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
+    - eval $(ssh-agent -s)
+    - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
+    - mkdir -p ~/.ssh
+    - chmod 700 ~/.ssh
+    - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
+  script:
+    - pwd
+    - ssh -i ~/.ssh/key $SERVER_USER@$SERVER_IP "sudo docker login -u artsem.yndx -p glpat-XxX5aF1rxEf1z_YTPVa1 registry.gitlab.com; sudo docker stop $APP_NAME; sudo docker system prune -a -f; sudo docker pull $DOCKER_REPO:latest; sudo docker-compose up -d; sudo docker logout"
+  only:
+    - master
