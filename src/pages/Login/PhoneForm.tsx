@@ -7,7 +7,6 @@ import { useLazyLoginPhoneNumberQuery } from '@redux/components/login/login.api'
 import { savePhone } from '@redux/components/login/login.slice';
 import { useAppDispatch } from '@redux/hooks';
 import useErrorResponse from '@shared/hooks/useErrorResponse';
-import usePosition from '@shared/hooks/usePosition';
 
 import { StepperContext } from './Stepper';
 
@@ -15,18 +14,15 @@ const PhoneForm: FC = (): JSX.Element => {
   const { goToNextStep } = useContext(StepperContext);
   const [sendPhoneNumber, { isSuccess, isError: isErrorPhoneNumber, error: errorPhoneNumber }] =
     useLazyLoginPhoneNumberQuery();
-  const { error, ...position } = usePosition();
   const { register, handleSubmit, getValues } = useForm<ILoginRequestPhoneNumber>();
   const dispatch = useAppDispatch();
   const [checkError] = useErrorResponse();
 
   const onSubmit: SubmitHandler<ILoginRequestPhoneNumber> = (data) => {
-    if (error) {
-      return;
-    }
+  
 
     dispatch(savePhone(getValues('phoneNumber')));
-    sendPhoneNumber({ phoneNumber: data.phoneNumber, position });
+    sendPhoneNumber({ phoneNumber: data.phoneNumber });
   };
 
   useEffect(() => {

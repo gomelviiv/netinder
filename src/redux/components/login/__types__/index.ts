@@ -24,7 +24,6 @@ interface ILoginRequestData {
 
 interface ILoginRequestPhoneNumber {
   phoneNumber: string;
-  position: IPosition;
 }
 
 interface ILoginRequestSmsCode {

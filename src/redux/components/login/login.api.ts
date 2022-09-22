@@ -25,11 +25,6 @@ export const loginApi = createApi({
         headers: {
           PhoneNumber: `${data.phoneNumber}`,
         },
-        params: {
-          latitude: data.position.latitude,
-          longitude: data.position.longitude,
-          altitude: data.position.altitude,
-        },
       }),
       providesTags: ['PhoneNumber'],
       async onQueryStarted(_, { dispatch, queryFulfilled }) {
