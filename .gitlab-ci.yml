@@ -10,6 +10,9 @@ build:
   script:
     - sudo npm install
     - sudo npm run build
+  artifacts:
+      paths:
+        - /home/gitlab-runner/
 
 docker build:
   services:
