@@ -10,7 +10,8 @@ docker build:
   image: docker:19.03.13-dind
   stage: build and push docker image
   script:
-    - DOCKER_BUILDKIT=1
+    - sudo npm install
+    - sudo npm run build 
     - sudo docker build -t $DOCKER_REPO:latest .
     - sudo docker login -u artsem.yndx -p glpat-XxX5aF1rxEf1z_YTPVa1 registry.gitlab.com
     - sudo docker push $DOCKER_REPO:latest
