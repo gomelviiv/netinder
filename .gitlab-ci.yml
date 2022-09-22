@@ -1,8 +1,15 @@
 image: node:16-alpine
 
 stages:
+  - build
   - build and push docker image
   - deploy
+
+build:
+  stage: build
+  script:
+    - sudo npm install
+    - sudo npm run build
 
 docker build:
   services:
@@ -10,8 +17,6 @@ docker build:
   image: docker:19.03.13-dind
   stage: build and push docker image
   script:
-    - sudo npm install
-    - sudo npm run build 
     - sudo docker build -t registry.gitlab.com/peartechnologies/notinder-front:latest .
     - sudo docker login -u artsem.yndx -p glpat-XxX5aF1rxEf1z_YTPVa1 registry.gitlab.com
     - sudo docker push $DOCKER_REPO:latest
