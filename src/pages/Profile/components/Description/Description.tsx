@@ -24,7 +24,6 @@ const Description: FC<Props> = ({ data, id }) => {
             <Typography>Общая информация</Typography>
           </Divider>
         )}
-        {console.log(data.jobs)}
         {!isEmpty(data.jobs) &&
           data.jobs.map((job: IJobs) => (
             <ProfileDescriptionField key={`${job.company}${job.title}-${id}`}>

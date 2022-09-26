@@ -10,9 +10,7 @@ const useErrorResponse = () => {
 
   const checkError = (isError: boolean, error: FetchBaseQueryError | SerializedError) => {
     if (error) {
-      console.log(1111);
       if (isFetchBaseQueryError(error)) {
-        console.log({ isError: isError, data: error.data, status: error.status });
         dispatch(
           saveError({
             isError: isError,
@@ -21,7 +19,6 @@ const useErrorResponse = () => {
           } as IError),
         );
       } else {
-        console.log(3333);
         dispatch(
           saveError({
             isError: isError,

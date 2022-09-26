@@ -23,13 +23,14 @@ const Login: FC = () => {
 
   return (
     <Stepper>
-      <Step step={0}>
+      <Step step={1}>
         <PhoneForm />
       </Step>
 
-      <Step step={1}>
+      <Step step={0}>
         <Confirmation<ILoginRequestSmsCode>
-          title="смс"
+          title="Введите код SMS:"
+          placeholder="SMS code"
           name={ConfirmationCode.SMS_CODE}
           queryFunction={sendSmsCode}
           error={smsCodeError}
@@ -40,7 +41,8 @@ const Login: FC = () => {
 
       <Step step={2}>
         <Confirmation<ILoginRequestEmailCode>
-          title="емаил код"
+          title="Введите код Email:"
+          placeholder="Email code"
           name={ConfirmationCode.EMAIL_CODE}
           queryFunction={sendEmailCode}
           error={emailCodeError}

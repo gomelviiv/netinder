@@ -27,7 +27,6 @@ const Profile: FC = () => {
     checkError(isError, error);
   }, [isError, error]);
 
-  console.log(data);
   return (
     <div>
       {isLoading ? (

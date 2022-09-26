@@ -1,15 +1,16 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import Modal from 'react-modal';
 import { useNavigate } from 'react-router-dom';
 
-import { Button, TextField } from '@mui/material';
+import { Typography } from '@mui/material';
 import { StepperContext } from '@pages/Login/Stepper';
 import { useAppSelector } from '@redux/hooks';
 import { SerializedError } from '@reduxjs/toolkit';
 import { FetchBaseQueryError } from '@reduxjs/toolkit/dist/query';
 import { ConfirmationCode } from '@shared/enum/confirmationCode.enum';
 import useErrorResponse from '@shared/hooks/useErrorResponse';
+
+import { FormButton, FormTextField, ModalContainer, ModalFormCode } from './styles';
 
 interface Props<T> {
   title: string;
@@ -18,6 +19,7 @@ interface Props<T> {
   error?: FetchBaseQueryError | SerializedError;
   isError?: boolean;
   isSuccess: boolean;
+  placeholder: string;
 }
 
 const Confirmation = <T extends { sessionHash: string }>({
@@ -26,6 +28,7 @@ const Confirmation = <T extends { sessionHash: string }>({
   queryFunction,
   error,
   isError,
+  placeholder,
   isSuccess,
 }: Props<T>) => {
   const [isOpen, setIsOpen] = useState(true);
@@ -59,20 +62,22 @@ const Confirmation = <T extends { sessionHash: string }>({
   }, [isError, error]);
 
   return (
-    <Modal
+    <ModalContainer
       isOpen={isOpen}
       onRequestClose={closeModal}
       ariaHideApp={false}
       contentLabel="login Modal"
     >
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <h2 className="p-2">{title}</h2>
-        <TextField {...register(`${name}`)} label={title} variant="outlined" />
-        <Button type="submit" variant="outlined">
+      <ModalFormCode onSubmit={handleSubmit(onSubmit)}>
+        <h2 className="p-2">
+          <Typography>{title}</Typography>
+        </h2>
+        <FormTextField {...register(`${name}`)} label={placeholder} variant="outlined" />
+        <FormButton type="submit" variant="outlined">
           отправить
-        </Button>
-      </form>
-    </Modal>
+        </FormButton>
+      </ModalFormCode>
+    </ModalContainer>
   );
 };
 
