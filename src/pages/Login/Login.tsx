@@ -23,11 +23,11 @@ const Login: FC = () => {
 
   return (
     <Stepper>
-      <Step step={1}>
+      <Step step={0}>
         <PhoneForm />
       </Step>
 
-      <Step step={0}>
+      <Step step={1}>
         <Confirmation<ILoginRequestSmsCode>
           title="Введите код SMS:"
           placeholder="SMS code"
