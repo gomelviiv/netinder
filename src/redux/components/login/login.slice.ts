@@ -1,13 +1,13 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import { initialState } from './__constants__';
-import { ILoginInformation } from './__types__';
+import { ILoginInformation, IPhoneNumber } from './__types__';
 
 export const loginSlice = createSlice({
   name: 'login',
   initialState,
   reducers: {
-    savePhone(state: ILoginInformation, action: PayloadAction<string>) {
+    savePhone(state: ILoginInformation, action: PayloadAction<IPhoneNumber>) {
       state.phoneNumber = action.payload;
     },
     saveSmsCode(state: ILoginInformation, action: PayloadAction<string>) {
@@ -32,5 +32,6 @@ export const loginSlice = createSlice({
   },
 });
 
-export const { logOut, savePhone, saveSmsCode, saveEmailCode, saveToken, saveSessionHash } = loginSlice.actions;
+export const { logOut, savePhone, saveSmsCode, saveEmailCode, saveToken, saveSessionHash } =
+  loginSlice.actions;
 export const loginReducer = loginSlice.reducer;

@@ -1,5 +1,5 @@
-const enum ErrorEnum {
-  'FETCH_ERROR' = 'Не верно набран номер',
+const enum ErrorStatus {
+  'UNAUTHORIZED' = 401,
 }
 
-export default ErrorEnum;
+export { ErrorStatus };

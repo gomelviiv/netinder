@@ -7,15 +7,18 @@ import { persistor, store } from '@redux/store';
 import Alert from '@shared/components/Alert';
 
 import AppRouter from './AppRouter';
+import { DivLogo } from './styles';
 import './styles/index.scss';
 
 const App: FC = (): JSX.Element => {
   return (
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
-        <Alert />
         <BrowserRouter>
-          <AppRouter />
+          <Alert />
+          <DivLogo>
+            <AppRouter />
+          </DivLogo>
         </BrowserRouter>
       </PersistGate>
     </Provider>

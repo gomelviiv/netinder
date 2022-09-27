@@ -10,31 +10,35 @@ import { savePhone } from '@redux/components/login/login.slice';
 import { useAppDispatch } from '@redux/hooks';
 import useErrorResponse from '@shared/hooks/useErrorResponse';
 
+import { FormattedPhoneValue } from './__types__';
 import { StepperContext } from './Stepper';
 import './style';
 import { FormButton, FormDiv, FormPhone } from './styles';
 
 const PhoneForm: FC = (): JSX.Element => {
   const { goToNextStep } = useContext(StepperContext);
-  const [sendPhoneNumber, { isSuccess, isError: isErrorPhoneNumber, error: errorPhoneNumber }] =
+  const [sendPhoneNumber, { isError: isErrorPhoneNumber, error: errorPhoneNumber }] =
     useLazyLoginPhoneNumberQuery();
   const { setValue, handleSubmit, getValues, watch } = useForm<ILoginRequestPhoneNumber>();
   const dispatch = useAppDispatch();
   const [checkError] = useErrorResponse();
   const selectPhoneNumber = watch('phoneNumber');
 
-  const onSubmit: SubmitHandler<ILoginRequestPhoneNumber> = (data) => {
-    dispatch(savePhone(getValues('phoneNumber')));
-    sendPhoneNumber({ phoneNumber: data.phoneNumber });
+  const onSubmit: SubmitHandler<ILoginRequestPhoneNumber> = ({ phoneNumber, countryCode }) => {
+    const phoneWithoutCountryCode = phoneNumber.slice(countryCode.length);
+
+    dispatch(
+      savePhone({ phoneNumber: getValues('phoneNumber'), countryCode: getValues('countryCode') }),
+    );
+    sendPhoneNumber({ phoneNumber: phoneWithoutCountryCode, countryCode });
+
+    goToNextStep();
   };
 
-  const handleChange = (phone: string) => setValue('phoneNumber', phone);
-
-  useEffect(() => {
-    if (isSuccess) {
-      goToNextStep();
-    }
-  }, [isSuccess]);
+  const handleChange = (phone: string, formattedValue: FormattedPhoneValue) => {
+    setValue('phoneNumber', phone);
+    setValue('countryCode', formattedValue.dialCode);
+  };
 
   useEffect(() => {
     checkError(isErrorPhoneNumber, errorPhoneNumber);
@@ -47,9 +51,12 @@ const PhoneForm: FC = (): JSX.Element => {
           <Typography>Введите телефон:</Typography>
         </h2>
         <PhoneInput
+          onlyCountries={['by', 'ru']}
           country={'by'}
           value={selectPhoneNumber}
-          onChange={(phone: string) => handleChange(phone)}
+          onChange={(phone: string, formattedValue: FormattedPhoneValue) =>
+            handleChange(phone, formattedValue)
+          }
         />
         <FormButton type="submit" variant="outlined">
           Отправить

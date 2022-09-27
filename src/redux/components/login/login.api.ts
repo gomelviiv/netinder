@@ -19,11 +19,12 @@ export const loginApi = createApi({
   refetchOnFocus: true,
   endpoints: (build) => ({
     loginPhoneNumber: build.query<ILoginResponsePhoneNumber, ILoginRequestPhoneNumber>({
-      query: (data: ILoginRequestPhoneNumber) => ({
+      query: ({ countryCode, phoneNumber }: ILoginRequestPhoneNumber) => ({
         url: `/authByPhone`,
-        method: 'GET',
-        headers: {
-          PhoneNumber: `${data.phoneNumber}`,
+        method: 'PUT',
+        body: {
+          countryCode: countryCode,
+          phoneNumber: phoneNumber,
         },
       }),
       providesTags: ['PhoneNumber'],
@@ -37,21 +38,21 @@ export const loginApi = createApi({
       },
     }),
     loginSmsCode: build.query<string, ILoginRequestSmsCode>({
-      query: (data: ILoginRequestSmsCode) => ({
-        url: `/${data.sessionHash}/smsConfirmationByPhone`,
+      query: ({ sessionHash, smsCode }: ILoginRequestSmsCode) => ({
+        url: `/${sessionHash}/smsConfirmationByPhone`,
         method: 'PATCH',
         headers: {
-          smsConfirmationCode: `${data.smsCode}`,
+          smsConfirmationCode: `${smsCode}`,
         },
       }),
       providesTags: ['SmsCode'],
     }),
     loginCodeEmail: build.query<ILoginEmailResponse, ILoginRequestEmailCode>({
-      query: (data: ILoginRequestEmailCode) => ({
-        url: `/${data.sessionHash}/emailConfirmationByPhone`,
+      query: ({ sessionHash, emailCode }: ILoginRequestEmailCode) => ({
+        url: `/${sessionHash}/emailConfirmationByPhone`,
         method: 'PATCH',
         headers: {
-          emailConfirmationCode: `${data.emailCode}`,
+          emailConfirmationCode: `${emailCode}`,
         },
       }),
       providesTags: ['EmailCode'],

@@ -1,7 +1,10 @@
-import { IPosition } from '@shared/interface/position.interface';
+interface IPhoneNumber {
+  phoneNumber: string;
+  countryCode: string;
+}
 
 interface ILoginInformation {
-  phoneNumber: string;
+  phoneNumber: IPhoneNumber;
   smsCode: string;
   emailCode: string;
   token: string;
@@ -24,6 +27,7 @@ interface ILoginRequestData {
 
 interface ILoginRequestPhoneNumber {
   phoneNumber: string;
+  countryCode: string;
 }
 
 interface ILoginRequestSmsCode {
@@ -54,4 +58,5 @@ export type {
   IData,
   IMeta,
   ILoginInformation,
+  IPhoneNumber,
 };

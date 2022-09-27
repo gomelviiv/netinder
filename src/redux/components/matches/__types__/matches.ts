@@ -1,3 +1,5 @@
+import { IPhoneNumber } from '@redux/components/login/__types__';
+
 import {
   ICity,
   IJobs,
@@ -16,13 +18,13 @@ interface IMatch {
 
 interface IAllMatchesRequest {
   token: string;
-  phoneNumber: string;
+  phoneNumber: IPhoneNumber;
 }
 
 interface IMatchActionRequest {
   id: string;
   token: string;
-  phoneNumber: string;
+  phoneNumber: IPhoneNumber;
 }
 
 interface IMatchProfile {

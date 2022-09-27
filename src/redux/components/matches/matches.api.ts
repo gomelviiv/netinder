@@ -17,12 +17,13 @@ export const matchesApi = createApi({
   refetchOnFocus: true,
   endpoints: (build) => ({
     getAllMatches: build.query<IMatch[], IAllMatchesRequest>({
-      query: (data: IAllMatchesRequest) => ({
+      query: ({ phoneNumber, token }: IAllMatchesRequest) => ({
         url: `/getMatches`,
         method: 'GET',
         headers: {
-          'X-Auth-Token': data.token,
-          phoneNumber: data.phoneNumber,
+          'X-Auth-Token': token,
+          phoneNumber: phoneNumber.phoneNumber,
+          countryCode: phoneNumber.countryCode,
         },
       }),
       providesTags: (result: IMatch[] | undefined) =>
@@ -31,11 +32,11 @@ export const matchesApi = createApi({
           : ['GetMatch'],
     }),
     likeMatch: build.mutation<string, IMatchActionRequest>({
-      query: (data: IMatchActionRequest) => ({
-        url: `/like/${data.id}`,
+      query: ({ token, id }: IMatchActionRequest) => ({
+        url: `/like/${id}`,
         method: 'GET',
         headers: {
-          'X-Auth-Token': data.token,
+          'X-Auth-Token': token,
         },
       }),
       invalidatesTags: ['GetMatch'],
@@ -51,11 +52,11 @@ export const matchesApi = createApi({
       invalidatesTags: ['GetMatch'],
     }),
     getMatchById: build.query<IMatchProfile, IMatchActionRequest>({
-      query: (data: IMatchActionRequest) => ({
-        url: `user/${data.id}`,
+      query: ({ token, id }: IMatchActionRequest) => ({
+        url: `user/${id}`,
         method: 'GET',
         headers: {
-          'X-Auth-Token': data.token,
+          'X-Auth-Token': token,
         },
       }),
 

@@ -42,18 +42,20 @@ const Confirmation = <T extends { sessionHash: string }>({
     resetSteps();
   };
 
+  const checkEmailStep = (name) => name === ConfirmationCode.EMAIL_CODE;
+
   const onSubmit: SubmitHandler<T> = (data) => {
     queryFunction({ [name]: data[name], sessionHash: loginState.sessionHash } as T);
     setIsOpen(false);
+
+    if (!checkEmailStep(name)) {
+      goToNextStep();
+    }
   };
 
   useEffect(() => {
-    if (isSuccess) {
-      if (name === ConfirmationCode.EMAIL_CODE) {
-        navigate('/home');
-      } else {
-        goToNextStep();
-      }
+    if (isSuccess && checkEmailStep(name)) {
+      navigate('/home');
     }
   }, [isSuccess]);
 
@@ -67,6 +69,11 @@ const Confirmation = <T extends { sessionHash: string }>({
       onRequestClose={closeModal}
       ariaHideApp={false}
       contentLabel="login Modal"
+      style={{
+        overlay: {
+          backgroundColor: 'none',
+        },
+      }}
     >
       <ModalFormCode onSubmit={handleSubmit(onSubmit)}>
         <h2 className="p-2">

@@ -16,8 +16,8 @@ const FormPhone = styled.form`
   gap: 8px;
   border-radius: 10px;
   padding: 24px;
-
-  box-shadow: 5px 5px 20px #cacaca;
+  background: white;
+  box-shadow: 0px 0px 20px 3px #cacaca;
 `;
 
 const FormButton = styled(Button)`

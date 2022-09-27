@@ -8,6 +8,7 @@ import {
 import Confirmation from '@shared/components/modals/Confirmation';
 import { ConfirmationCode } from '@shared/enum/confirmationCode.enum';
 
+import { LoginEmail, LoginSms } from './__constants__';
 import PhoneForm from './PhoneForm';
 import Stepper, { Step } from './Stepper';
 
@@ -29,8 +30,8 @@ const Login: FC = () => {
 
       <Step step={1}>
         <Confirmation<ILoginRequestSmsCode>
-          title="Введите код SMS:"
-          placeholder="SMS code"
+          title={LoginSms.title}
+          placeholder={LoginSms.placeholder}
           name={ConfirmationCode.SMS_CODE}
           queryFunction={sendSmsCode}
           error={smsCodeError}
@@ -41,8 +42,8 @@ const Login: FC = () => {
 
       <Step step={2}>
         <Confirmation<ILoginRequestEmailCode>
-          title="Введите код Email:"
-          placeholder="Email code"
+          title={LoginEmail.title}
+          placeholder={LoginEmail.placeholder}
           name={ConfirmationCode.EMAIL_CODE}
           queryFunction={sendEmailCode}
           error={emailCodeError}
