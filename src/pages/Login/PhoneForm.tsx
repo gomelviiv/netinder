@@ -28,7 +28,7 @@ const PhoneForm: FC = (): JSX.Element => {
     const phoneWithoutCountryCode = phoneNumber.slice(countryCode.length);
 
     dispatch(
-      savePhone({ phoneNumber: getValues('phoneNumber'), countryCode: getValues('countryCode') }),
+      savePhone({ phoneNumber: phoneWithoutCountryCode, countryCode: getValues('countryCode') }),
     );
     sendPhoneNumber({ phoneNumber: phoneWithoutCountryCode, countryCode });
 
