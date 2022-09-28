@@ -9,6 +9,7 @@ import { useLazyLoginPhoneNumberQuery } from '@redux/components/login/login.api'
 import { savePhone } from '@redux/components/login/login.slice';
 import { useAppDispatch } from '@redux/hooks';
 import useErrorResponse from '@shared/hooks/useErrorResponse';
+import Spinner from '@shared/layout/Spinner';
 
 import { FormattedPhoneValue } from './__types__';
 import { StepperContext } from './Stepper';
@@ -17,8 +18,15 @@ import { FormButton, FormDiv, FormPhone } from './styles';
 
 const PhoneForm: FC = (): JSX.Element => {
   const { goToNextStep } = useContext(StepperContext);
-  const [sendPhoneNumber, { isSuccess, isError: isErrorPhoneNumber, error: errorPhoneNumber }] =
-    useLazyLoginPhoneNumberQuery();
+  const [
+    sendPhoneNumber,
+    {
+      isSuccess: isSuccessPhoneNumber,
+      isLoading: isLoadingPhoneNumber,
+      isError: isErrorPhoneNumber,
+      error: errorPhoneNumber,
+    },
+  ] = useLazyLoginPhoneNumberQuery();
   const { setValue, handleSubmit, getValues, watch } = useForm<ILoginRequestPhoneNumber>();
   const dispatch = useAppDispatch();
   const [checkError] = useErrorResponse();
@@ -39,10 +47,10 @@ const PhoneForm: FC = (): JSX.Element => {
   };
 
   useEffect(() => {
-    if (isSuccess) {
+    if (isSuccessPhoneNumber) {
       goToNextStep();
     }
-  }, [isSuccess]);
+  }, [isSuccessPhoneNumber]);
 
   useEffect(() => {
     checkError(isErrorPhoneNumber, errorPhoneNumber);
@@ -54,6 +62,7 @@ const PhoneForm: FC = (): JSX.Element => {
         <h2 className="p-2">
           <Typography>Введите телефон:</Typography>
         </h2>
+        {isLoadingPhoneNumber && <Spinner size={40} />}
         <PhoneInput
           onlyCountries={['by', 'ru']}
           country={'by'}

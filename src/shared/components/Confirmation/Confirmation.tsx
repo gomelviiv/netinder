@@ -9,6 +9,7 @@ import { SerializedError } from '@reduxjs/toolkit';
 import { FetchBaseQueryError } from '@reduxjs/toolkit/dist/query';
 import { ConfirmationCode } from '@shared/enum/confirmationCode.enum';
 import useErrorResponse from '@shared/hooks/useErrorResponse';
+import Spinner from '@shared/layout/Spinner';
 
 import { ConfirmationContainer, ConfirmationFormCode, FormButton, FormTextField } from './styles';
 
@@ -20,6 +21,7 @@ interface Props<T> {
   isError?: boolean;
   isSuccess: boolean;
   placeholder: string;
+  isLoading: boolean;
 }
 
 const Confirmation = <T extends { sessionHash: string }>({
@@ -30,6 +32,7 @@ const Confirmation = <T extends { sessionHash: string }>({
   isError,
   placeholder,
   isSuccess,
+  isLoading,
 }: Props<T>) => {
   const { register, handleSubmit } = useForm();
   const { resetSteps, goToNextStep } = useContext(StepperContext);
@@ -68,6 +71,7 @@ const Confirmation = <T extends { sessionHash: string }>({
         <h2 className="p-2">
           <Typography>{title}</Typography>
         </h2>
+        {isLoading && <Spinner size={40} />}
         <FormTextField {...register(`${name}`)} label={placeholder} variant="outlined" />
         <FormButton type="submit" variant="outlined">
           отправить

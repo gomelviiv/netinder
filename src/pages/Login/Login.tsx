@@ -15,11 +15,21 @@ import Stepper, { Step } from './Stepper';
 const Login: FC = () => {
   const [
     sendSmsCode,
-    { error: smsCodeError, isError: isSmsCodeError, isSuccess: isSuccessSmsCode },
+    {
+      error: smsCodeError,
+      isLoading: isLoadingSmsCode,
+      isError: isSmsCodeError,
+      isSuccess: isSuccessSmsCode,
+    },
   ] = useLazyLoginSmsCodeQuery();
   const [
     sendEmailCode,
-    { error: emailCodeError, isError: isEmailCodeError, isSuccess: isSuccessEmailCode },
+    {
+      error: emailCodeError,
+      isLoading: isLoadingEmailCode,
+      isError: isEmailCodeError,
+      isSuccess: isSuccessEmailCode,
+    },
   ] = useLazyLoginCodeEmailQuery();
 
   return (
@@ -37,6 +47,7 @@ const Login: FC = () => {
           error={smsCodeError}
           isError={isSmsCodeError}
           isSuccess={isSuccessSmsCode}
+          isLoading={isLoadingSmsCode}
         />
       </Step>
 
@@ -49,6 +60,7 @@ const Login: FC = () => {
           error={emailCodeError}
           isError={isEmailCodeError}
           isSuccess={isSuccessEmailCode}
+          isLoading={isLoadingEmailCode}
         />
       </Step>
     </Stepper>

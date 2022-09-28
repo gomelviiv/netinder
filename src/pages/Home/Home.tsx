@@ -1,6 +1,6 @@
 import React, { FC, useEffect } from 'react';
 
-import { Alert as AlertMaterial, Typography } from '@mui/material/';
+import { Alert as AlertMaterial } from '@mui/material/';
 import { useGetAllMatchesQuery } from '@redux/components/matches/matches.api';
 import { useAppSelector } from '@redux/hooks';
 import Card from '@shared/components/Card';
@@ -13,7 +13,6 @@ const Home: FC = () => {
   const {
     isError: isErrorMatches,
     error: errorMatches,
-    isLoading: isLoadingMatches,
     data: dataMatches,
   } = useGetAllMatchesQuery(
     { phoneNumber: loginState.phoneNumber, token: loginState.token },
@@ -33,9 +32,7 @@ const Home: FC = () => {
   return (
     <ContainerHome>
       <CardsContainer>
-        {isLoadingMatches ? (
-          <Typography>Loading...</Typography>
-        ) : dataMatches && !dataMatches.length ? (
+        {dataMatches && !dataMatches.length ? (
           <AlertMaterial severity="warning">
             На данный момент у вас нет пары для 100% метча, дайте нам пару мин (30) и мы всё
             исправим!

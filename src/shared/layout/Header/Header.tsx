@@ -10,6 +10,7 @@ import { useGetUserInformationQuery } from '@redux/components/user/user.api';
 import { useAppDispatch, useAppSelector } from '@redux/hooks';
 import useErrorResponse from '@shared/hooks/useErrorResponse';
 
+import Spinner from '../Spinner';
 import {
   HeaderContainer,
   HeaderNavigation,
@@ -46,7 +47,7 @@ const Header: FC = () => {
   return (
     <>
       {isLoadingUser ? (
-        <p>Loading...</p>
+        <Spinner />
       ) : (
         <HeaderContainer>
           {/* {isErrorUser && <Alert error={errorUser} />} */}
