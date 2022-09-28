@@ -44,9 +44,10 @@ const Confirmation = <T extends { sessionHash: string }>({
 
   useEffect(() => {
     if (isSuccess && name === ConfirmationCode.EMAIL_CODE) {
-      navigate('/home');
-    } else {
-      goToNextStep();
+      return navigate('/home');
+    }
+    if (isSuccess) {
+      return goToNextStep();
     }
   }, [isSuccess]);
 

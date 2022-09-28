@@ -31,8 +31,6 @@ const PhoneForm: FC = (): JSX.Element => {
       savePhone({ phoneNumber: phoneWithoutCountryCode, countryCode: getValues('countryCode') }),
     );
     sendPhoneNumber({ phoneNumber: phoneWithoutCountryCode, countryCode });
-
-    goToNextStep();
   };
 
   const handleChange = (phone: string, formattedValue: FormattedPhoneValue) => {
