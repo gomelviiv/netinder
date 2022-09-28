@@ -3,15 +3,13 @@ import { useParams } from 'react-router-dom';
 
 import { useGetMatchByIdQuery } from '@redux/components/matches/matches.api';
 import { useAppSelector } from '@redux/hooks';
-import LikeDislikeButtons from '@shared/components/LikeDislikeButtons';
 import useErrorResponse from '@shared/hooks/useErrorResponse';
 
 import Description from './components/Description';
 import Interests from './components/Interests';
 import Photo from './components/Photo';
-import Preview from './components/Preview';
 import Skeleton from './components/Skeleton';
-import { ProfileActionsContainer, ProfileContainer } from './styles';
+import { ProfileContainer } from './styles';
 
 const Profile: FC = () => {
   const { id } = useParams();
@@ -33,15 +31,9 @@ const Profile: FC = () => {
         <Skeleton />
       ) : (
         <ProfileContainer>
-          <Preview data={data} />
-
           <Description data={data} id={id} />
 
           <Interests data={data} />
-
-          <ProfileActionsContainer>
-            <LikeDislikeButtons id={id} />
-          </ProfileActionsContainer>
 
           <Photo data={data} />
         </ProfileContainer>

@@ -12,6 +12,8 @@ const CardsContainer = styled.div`
   justify-content: center;
   align-items: center;
   box-sizing: border-box;
+  background: white;
+  border-radius: 5px;
 
   .MuiPaper-root {
     margin: 12px;

@@ -9,10 +9,8 @@ const InterestsContainer = styled.div`
 const InterestsCard = styled(Card)`
   margin-right: 12px;
   padding: 4px;
-  background: #ede3e369;
-  -webkit-box-shadow: 7px 8px 12px -1px #efeaea;
-  -moz-box-shadow: 7px 8px 12px -1px #efeaea;
-  box-shadow: 7px 8px 12px -1px #efeaea;
+  background: white;
+  box-shadow: 0px 0px 9px 0px #cacaca;
 `;
 
 export { InterestsCard, InterestsContainer };

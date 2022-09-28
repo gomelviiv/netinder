@@ -9,6 +9,7 @@ import Alert from '@shared/components/Alert';
 import AppRouter from './AppRouter';
 import { DivLogo } from './styles';
 import './styles/index.scss';
+import './styles/reset.scss';
 
 const App: FC = (): JSX.Element => {
   return (

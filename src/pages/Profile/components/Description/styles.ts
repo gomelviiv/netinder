@@ -3,20 +3,17 @@ import { Card, Typography } from '@mui/material';
 
 const ProfileDescriptionContainer = styled(Card)`
   display: flex;
-  width 100%;
-  max-width: 500px;
   flex-direction: column;
-  background: #ede3e369;
-  -webkit-box-shadow: 7px 8px 12px -1px #efeaea;
-  -moz-box-shadow: 7px 8px 12px -1px #efeaea;
-  box-shadow: 7px 8px 12px -1px #efeaea;
+  background: white;
+  box-shadow: 0px 0px 9px 0px #cacaca;
   padding: 12px;
   margin-bottom: 12px;
+  width: 100%;
+  max-width: 42.5rem;
 
   .MuiTypography-root {
     display: flex;
     align-items: center;
- 
   }
 `;
 

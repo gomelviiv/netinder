@@ -8,7 +8,6 @@ const HeaderContainer = styled.div`
   max-width: 700px !important;
   display: flex;
   flex-direction: column;
-  border-bottom: 1px black solid;
   margin-bottom: 24px;
   padding-bottom: 8px;
 `;
@@ -17,6 +16,10 @@ const HeaderNavigation = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  background: white;
+  border-radius: 6px;
+  margin-top: 12px;
+  box-shadow: 0px 0px 9px 0px #cacaca;
 
   .MuiButtonBase-root {
     color: black;
@@ -47,7 +50,7 @@ const HeaderRightContent = styled.div`
   flex-direction: row;
 
   .MuiAvatar-root {
-    margin-right: 12px;
+    margin: 4px 12px;
   }
 `;
 

@@ -5,7 +5,7 @@ const DivLogo = styled.div`
   padding: 0;
   position: relative;
   font-size: 24px;
-  height: 100vh;
+  min-height: 100vh;
   background-repeat: no-repeat;
   background: linear-gradient(
       149deg,

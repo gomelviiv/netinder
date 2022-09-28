@@ -10,7 +10,8 @@ const ProfileContainer = styled.section`
 const ProfileActionsContainer = styled.div`
   display: flex;
   flex-direction: row;
-  margin-top: 24px;
+  justify-content: center;
+  margin: 12px 0 0 0;
 
   .MuiButtonBase-root:first-of-type {
     margin-right: 24px;

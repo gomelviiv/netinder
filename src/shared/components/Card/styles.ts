@@ -8,6 +8,7 @@ const CardContainer = styled(Card)`
   flex-direction: column;
   max-width: 400px;
   justify-content: space-between;
+  border: 1px #cacaca solid;
 
   .MuiCardContent-root {
     padding: 0;
