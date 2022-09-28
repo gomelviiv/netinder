@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useRef } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 
@@ -10,7 +10,7 @@ import { FetchBaseQueryError } from '@reduxjs/toolkit/dist/query';
 import { ConfirmationCode } from '@shared/enum/confirmationCode.enum';
 import useErrorResponse from '@shared/hooks/useErrorResponse';
 
-import { FormButton, FormTextField, ModalContainer, ModalFormCode } from './styles';
+import { ConfirmationContainer, ConfirmationFormCode, FormButton, FormTextField } from './styles';
 
 interface Props<T> {
   title: string;
@@ -31,51 +31,39 @@ const Confirmation = <T extends { sessionHash: string }>({
   placeholder,
   isSuccess,
 }: Props<T>) => {
-  const [isOpen, setIsOpen] = useState(true);
   const { register, handleSubmit } = useForm();
   const { resetSteps, goToNextStep } = useContext(StepperContext);
   const loginState = useAppSelector((state) => state.login);
   const navigate = useNavigate();
   const [checkError] = useErrorResponse();
-
-  const closeModal = () => {
-    resetSteps();
-  };
-
-  const checkEmailStep = (name) => name === ConfirmationCode.EMAIL_CODE;
+  const rootEl = useRef(null);
 
   const onSubmit: SubmitHandler<T> = (data) => {
     queryFunction({ [name]: data[name], sessionHash: loginState.sessionHash } as T);
-    setIsOpen(false);
-
-    if (!checkEmailStep(name)) {
-      goToNextStep();
-    }
   };
 
   useEffect(() => {
-    if (isSuccess && checkEmailStep(name)) {
+    if (isSuccess && name === ConfirmationCode.EMAIL_CODE) {
       navigate('/home');
+    } else {
+      goToNextStep();
     }
   }, [isSuccess]);
+
+  useEffect(() => {
+    const onClick = (event) => rootEl.current.contains(event.target) || resetSteps();
+    document.addEventListener('click', onClick);
+
+    return () => document.removeEventListener('click', onClick);
+  }, []);
 
   useEffect(() => {
     checkError(isError, error);
   }, [isError, error]);
 
   return (
-    <ModalContainer
-      isOpen={isOpen}
-      onRequestClose={closeModal}
-      ariaHideApp={false}
-      contentLabel="login Modal"
-      style={{
-        overlay: {
-          backgroundColor: 'none',
-        },
-      }}
-    >
-      <ModalFormCode onSubmit={handleSubmit(onSubmit)}>
+    <ConfirmationContainer ref={rootEl}>
+      <ConfirmationFormCode onSubmit={handleSubmit(onSubmit)}>
         <h2 className="p-2">
           <Typography>{title}</Typography>
         </h2>
@@ -83,8 +71,8 @@ const Confirmation = <T extends { sessionHash: string }>({
         <FormButton type="submit" variant="outlined">
           отправить
         </FormButton>
-      </ModalFormCode>
-    </ModalContainer>
+      </ConfirmationFormCode>
+    </ConfirmationContainer>
   );
 };
 

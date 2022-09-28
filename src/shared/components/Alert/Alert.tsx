@@ -1,9 +1,9 @@
 import React, { FC, useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 
 import { Typography } from '@mui/material';
 import AlertTitle from '@mui/material/AlertTitle';
-import { useAppSelector } from '@redux/hooks';
+import { logOut } from '@redux/components/login/login.slice';
+import { useAppDispatch, useAppSelector } from '@redux/hooks';
 
 import { ErrorStatus } from './__constants__';
 import { AlertContainer, ErrorDialog } from './styles';
@@ -11,7 +11,7 @@ import { AlertContainer, ErrorDialog } from './styles';
 const Alert: FC = () => {
   const { data, isError, status } = useAppSelector((state) => state.errors);
   const [isErrorDialog, setIsErrorDialog] = useState(false);
-  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
 
   const handleCloseErrorDialog = () => {
     setIsErrorDialog(false);
@@ -19,7 +19,7 @@ const Alert: FC = () => {
 
   useEffect(() => {
     if (status === ErrorStatus.UNAUTHORIZED) {
-      return navigate('/');
+      dispatch(logOut());
     }
 
     setIsErrorDialog(isError);

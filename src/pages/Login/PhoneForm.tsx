@@ -17,7 +17,7 @@ import { FormButton, FormDiv, FormPhone } from './styles';
 
 const PhoneForm: FC = (): JSX.Element => {
   const { goToNextStep } = useContext(StepperContext);
-  const [sendPhoneNumber, { isError: isErrorPhoneNumber, error: errorPhoneNumber }] =
+  const [sendPhoneNumber, { isSuccess, isError: isErrorPhoneNumber, error: errorPhoneNumber }] =
     useLazyLoginPhoneNumberQuery();
   const { setValue, handleSubmit, getValues, watch } = useForm<ILoginRequestPhoneNumber>();
   const dispatch = useAppDispatch();
@@ -39,6 +39,12 @@ const PhoneForm: FC = (): JSX.Element => {
     setValue('phoneNumber', phone);
     setValue('countryCode', formattedValue.dialCode);
   };
+
+  useEffect(() => {
+    if (isSuccess) {
+      goToNextStep();
+    }
+  }, [isSuccess]);
 
   useEffect(() => {
     checkError(isErrorPhoneNumber, errorPhoneNumber);

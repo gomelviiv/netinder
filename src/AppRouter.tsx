@@ -10,36 +10,32 @@ import { PRIVATE_ROUTES, PUBLIC_ROUTES } from './configs/routes.config';
 const AppRouter: React.FC = () => {
   return (
     <Routes>
-      {!!PUBLIC_ROUTES &&
-        PUBLIC_ROUTES.length &&
-        PUBLIC_ROUTES.map(
-          (routeProps): ReactNode => (
-            <Route
-              key={routeProps.path}
-              path={routeProps.path}
-              element={<PublicRoute>{<routeProps.component />}</PublicRoute>}
-            />
-          ),
-        )}
+      {PUBLIC_ROUTES.map(
+        (routeProps): ReactNode => (
+          <Route
+            {...routeProps}
+            key={routeProps.path}
+            element={<PublicRoute>{<routeProps.component />}</PublicRoute>}
+          />
+        ),
+      )}
 
-      {!!PRIVATE_ROUTES &&
-        PRIVATE_ROUTES.length &&
-        PRIVATE_ROUTES.map(
-          (routeProps): ReactNode => (
-            <Route
-              key={routeProps.path}
-              path={routeProps.path}
-              element={
-                <PrivateRoute>
-                  <>
-                    <Header />
-                    {<routeProps.component />}
-                  </>
-                </PrivateRoute>
-              }
-            />
-          ),
-        )}
+      {PRIVATE_ROUTES.map(
+        (routeProps): ReactNode => (
+          <Route
+            {...routeProps}
+            key={routeProps.path}
+            element={
+              <PrivateRoute>
+                <>
+                  <Header />
+                  {<routeProps.component />}
+                </>
+              </PrivateRoute>
+            }
+          />
+        ),
+      )}
     </Routes>
   );
 };

@@ -5,7 +5,7 @@ import {
   useLazyLoginCodeEmailQuery,
   useLazyLoginSmsCodeQuery,
 } from '@redux/components/login/login.api';
-import Confirmation from '@shared/components/modals/Confirmation';
+import Confirmation from '@shared/components/Confirmation';
 import { ConfirmationCode } from '@shared/enum/confirmationCode.enum';
 
 import { LoginEmail, LoginSms } from './__constants__';
